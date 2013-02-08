@@ -4,7 +4,7 @@
  *
  * The search form template displays the search form.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 ?>

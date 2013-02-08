@@ -5,7 +5,7 @@
  * Lists comments and calls the comment form.  Individual comments have their own templates.  The 
  * hierarchy for these templates is $comment_type.php, comment.php.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 
@@ -24,13 +24,13 @@ if ( post_password_required() || ( !have_comments() && !comments_open() && !ping
 
 				<h3 id="comments-number" class="comments-header"><?php comments_number( __( 'No Responses', 'enterprise' ), __( 'One Response', 'enterprise' ), __( '% Responses', 'enterprise' ) ); ?></h3>
 
-				<?php do_atomic( 'before_comment_list' );// enterprise_before_comment_list ?>
+				<?php do_atomic( 'before_comment_list' );// vote_denton_before_comment_list ?>
 
 				<ol class="comment-list">
 					<?php wp_list_comments( hybrid_list_comments_args() ); ?>
 				</ol><!-- .comment-list -->
 
-				<?php do_atomic( 'after_comment_list' ); // enterprise_after_comment_list ?>
+				<?php do_atomic( 'after_comment_list' ); // vote_denton_after_comment_list ?>
 
 				<?php if ( get_option( 'page_comments' ) ) : ?>
 					<div class="comment-navigation comment-pagination">

@@ -1,20 +1,21 @@
 <?php
 /**
- * Archive Template
+ * Search Template
  *
- * The archive template is the default template used for archives pages without a more specific template. 
+ * The search template is loaded when a visitor uses the search form to search for something
+ * on the site.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 
 get_header(); // Loads the header.php template. ?>
 
-	<?php do_atomic( 'before_content' ); // enterprise_before_content ?>
+	<?php do_atomic( 'before_content' ); // vote_denton_before_content ?>
 
-	<div id="content" class="<?php echo enterprise_get_layout( 'content' ); ?>">
+	<div id="content" class="<?php echo vote_denton_get_layout( 'content' ); ?>">
 
-		<?php do_atomic( 'open_content' ); // enterprise_open_content ?>
+		<?php do_atomic( 'open_content' ); // vote_denton_open_content ?>
 
 		<div class="hfeed">
 
@@ -24,11 +25,11 @@ get_header(); // Loads the header.php template. ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
-					<?php do_atomic( 'before_entry' ); // enterprise_before_entry ?>
+					<?php do_atomic( 'before_entry' ); // vote_denton_before_entry ?>
 
 					<div id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
-						<?php do_atomic( 'open_entry' ); // enterprise_open_entry ?>
+						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
 
 						<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail' ) ); ?>
 
@@ -43,11 +44,11 @@ get_header(); // Loads the header.php template. ?>
 
 						<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-terms taxonomy="category" before="Posted in "] [entry-terms before="| Tagged "] [entry-comments-link before=" | "]', 'enterprise' ) . '</div>' ); ?>
 
-						<?php do_atomic( 'close_entry' ); // enterprise_close_entry ?>
+						<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
 
 					</div><!-- .hentry -->
 
-					<?php do_atomic( 'after_entry' ); // enterprise_after_entry ?>
+					<?php do_atomic( 'after_entry' ); // vote_denton_after_entry ?>
 
 				<?php endwhile; ?>
 
@@ -59,12 +60,12 @@ get_header(); // Loads the header.php template. ?>
 
 		</div><!-- .hfeed -->
 
-		<?php do_atomic( 'close_content' ); // enterprise_close_content ?>
+		<?php do_atomic( 'close_content' ); // vote_denton_close_content ?>
 
 		<?php get_template_part( 'loop-nav' ); // Loads the loop-nav.php template. ?>
 
 	</div><!-- #content -->
 
-	<?php do_atomic( 'after_content' ); // enterprise_after_content ?>
+	<?php do_atomic( 'after_content' ); // vote_denton_after_content ?>
 
 <?php get_footer(); // Loads the footer.php template. ?>

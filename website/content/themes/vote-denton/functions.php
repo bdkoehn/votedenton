@@ -8,7 +8,7 @@
  * Child themes should do their setup on the 'after_setup_theme' hook with a priority of 11 if they want to
  * override parent theme features.  Use a priority of 9 if wanting to run before the parent theme.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Functions
  * @version 0.1.0
  * @author Patrick Daly <patrick@developdaly.com>
@@ -24,7 +24,7 @@ require_once( trailingslashit( get_template_directory() ) . 'library/class-tgm-p
 require_once( trailingslashit( get_template_directory() ) . 'library/require-plugins.php' );
 
 /* Do theme setup on the 'after_setup_theme' hook. */
-add_action( 'after_setup_theme', 'enterprise_theme_setup' );
+add_action( 'after_setup_theme', 'vote_denton_theme_setup' );
 
 /**
  * Theme setup function.  This function adds support for theme features and defines the default theme
@@ -32,7 +32,7 @@ add_action( 'after_setup_theme', 'enterprise_theme_setup' );
  *
  * @since 0.1.0
  */
-function enterprise_theme_setup() {
+function vote_denton_theme_setup() {
 
 	/* Get action/filter hook prefix. */
 	$prefix = hybrid_get_prefix();
@@ -61,17 +61,17 @@ function enterprise_theme_setup() {
 	add_theme_support( 'automatic-feed-links' );
 
 	/* Enqueue scripts and styles. */
-	add_action( 'wp_enqueue_scripts', 'enterprise_enqueue_scripts' );
+	add_action( 'wp_enqueue_scripts', 'vote_denton_enqueue_scripts' );
 
 	/* Embed width/height defaults. */
-	add_filter( 'embed_defaults', 'enterprise_embed_defaults' );
+	add_filter( 'embed_defaults', 'vote_denton_embed_defaults' );
 	
 	/* Reconfigure some WordPress settings to work with Bootstrap. */
-	add_action( 'init', 'enterprise_bootstrap_setup' );
+	add_action( 'init', 'vote_denton_bootstrap_setup' );
 
 	/* Filter the sidebar widgets. */
-	add_filter( 'sidebars_widgets', 'enterprise_disable_sidebars' );
-	add_action( 'template_redirect', 'enterprise_one_column' );
+	add_filter( 'sidebars_widgets', 'vote_denton_disable_sidebars' );
+	add_action( 'template_redirect', 'vote_denton_one_column' );
 
 	/* Set the content width. */
 	hybrid_set_content_width( 870 );
@@ -82,7 +82,7 @@ function enterprise_theme_setup() {
  *
  * @since 0.1.0
  */
-function enterprise_enqueue_scripts() {
+function vote_denton_enqueue_scripts() {
 
 	// Queue CSS
 	wp_enqueue_style( 'style',		trailingslashit( get_stylesheet_directory_uri() ) . 'style.less' );
@@ -104,13 +104,13 @@ function enterprise_enqueue_scripts() {
  *
  * @since 0.1.0
  */
-function enterprise_one_column() {
+function vote_denton_one_column() {
 
 	if ( !is_active_sidebar( 'primary' ) && !is_active_sidebar( 'secondary' ) )
-		add_filter( 'get_theme_layout', 'enterprise_theme_layout_one_column' );
+		add_filter( 'get_theme_layout', 'vote_denton_theme_layout_one_column' );
 
 	elseif ( is_attachment() && 'layout-default' == theme_layouts_get_layout() )
-		add_filter( 'get_theme_layout', 'enterprise_theme_layout_one_column' );
+		add_filter( 'get_theme_layout', 'vote_denton_theme_layout_one_column' );
 }
 
 /**
@@ -118,11 +118,11 @@ function enterprise_one_column() {
  *
  * @since 0.2.0
  */
-function enterprise_theme_layout_one_column( $layout ) {
+function vote_denton_theme_layout_one_column( $layout ) {
 	return 'layout-1c';
 }
 
-function enterprise_get_layout( $id = '' ) {
+function vote_denton_get_layout( $id = '' ) {
 	
 	$layout = theme_layouts_get_layout();
 
@@ -166,7 +166,7 @@ function enterprise_get_layout( $id = '' ) {
  *
  * @since 0.1.0
  */
-function enterprise_disable_sidebars( $sidebars_widgets ) {
+function vote_denton_disable_sidebars( $sidebars_widgets ) {
 	global $wp_query;
 
 	if ( current_theme_supports( 'theme-layouts' ) ) {
@@ -187,7 +187,7 @@ function enterprise_disable_sidebars( $sidebars_widgets ) {
  *
  * @since 0.1.0
  */
-function enterprise_embed_defaults( $args ) {
+function vote_denton_embed_defaults( $args ) {
 
 	if ( current_theme_supports( 'theme-layouts' ) ) {
 
@@ -206,7 +206,7 @@ function enterprise_embed_defaults( $args ) {
 	return $args;
 }
 
-function enterprise_bootstrap_setup(){
+function vote_denton_bootstrap_setup(){
 	
 	/**
 	 * Class Name: twitter_bootstrap_nav_walker

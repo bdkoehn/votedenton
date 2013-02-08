@@ -5,7 +5,7 @@
  * Displays information at the top of the page about archive and search results when viewing those pages.  
  * This is not shown on the home page and singular views.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 ?>
