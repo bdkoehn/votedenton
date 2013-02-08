@@ -6,7 +6,7 @@
  * somewhere near the top of the file. It is used mostly as an opening wrapper, which is closed with the 
  * footer.php file. It also executes key functions needed by the theme, child themes, and plugins. 
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 ?>
@@ -29,15 +29,15 @@
 
 <body class="<?php hybrid_body_class(); ?>">
 
-	<?php do_atomic( 'open_body' ); // enterprise_open_body ?>
+	<?php do_atomic( 'open_body' ); // vote_denton_open_body ?>
 
 	<div class="container">
 
-		<?php do_atomic( 'before_header' ); // enterprise_before_header ?>
+		<?php do_atomic( 'before_header' ); // vote_denton_before_header ?>
 
 		<div id="header" class="row">
 
-			<?php do_atomic( 'open_header' ); // enterprise_open_header ?>
+			<?php do_atomic( 'open_header' ); // vote_denton_open_header ?>
 
 			<div id="branding" class="span6">
 				<?php hybrid_site_title(); ?>
@@ -46,16 +46,16 @@
 			
 			<?php get_template_part( 'menu', 'primary' ); // Loads the menu-primary.php template. ?>
 
-			<?php do_atomic( 'header' ); // enterprise_header ?>
+			<?php do_atomic( 'header' ); // vote_denton_header ?>
 
-			<?php do_atomic( 'close_header' ); // enterprise_close_header ?>
+			<?php do_atomic( 'close_header' ); // vote_denton_close_header ?>
 
 		</div><!-- #header.row -->
 
-		<?php do_atomic( 'after_header' ); // enterprise_after_header ?>
+		<?php do_atomic( 'after_header' ); // vote_denton_after_header ?>
 
-		<?php do_atomic( 'before_main' ); // enterprise_before_main ?>
+		<?php do_atomic( 'before_main' ); // vote_denton_before_main ?>
 
 		<div id="main"  class="row">
 
-			<?php do_atomic( 'open_main' ); // enterprise_open_main ?>
+			<?php do_atomic( 'open_main' ); // vote_denton_open_main ?>

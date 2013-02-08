@@ -4,7 +4,7 @@
  *
  * Displays any widgets for the Header dynamic sidebar if they are available.
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 

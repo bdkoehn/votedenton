@@ -5,17 +5,17 @@
  * This is the default attachment template.  It is used when visiting the singular view of a post attachment 
  * page (images, videos, audio, etc.).
  *
- * @package Enterprise
+ * @package Vote Denton
  * @subpackage Template
  */
 
 get_header(); // Loads the header.php template. ?>
 
-	<?php do_atomic( 'before_content' ); // enterprise_before_content ?>
+	<?php do_atomic( 'before_content' ); // vote_denton_before_content ?>
 
-	<div id="content" class="<?php echo enterprise_get_layout( 'content' ); ?>">
+	<div id="content" class="<?php echo vote_denton_get_layout( 'content' ); ?>">
 
-		<?php do_atomic( 'open_content' ); // enterprise_open_content ?>
+		<?php do_atomic( 'open_content' ); // vote_denton_open_content ?>
 
 		<div class="hfeed">
 
@@ -23,11 +23,11 @@ get_header(); // Loads the header.php template. ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
-					<?php do_atomic( 'before_entry' ); // enterprise_before_entry ?>
+					<?php do_atomic( 'before_entry' ); // vote_denton_before_entry ?>
 
 					<div id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
-						<?php do_atomic( 'open_entry' ); // enterprise_open_entry ?>
+						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
 
 						<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
 
@@ -54,15 +54,15 @@ get_header(); // Loads the header.php template. ?>
 
 						<?php if ( wp_attachment_is_image( get_the_ID() ) ) echo do_shortcode( sprintf( '[gallery id="%1$s" exclude="%2$s" columns="8"]', $post->post_parent, get_the_ID() ) ); ?>
 
-						<?php do_atomic( 'close_entry' ); // enterprise_close_entry ?>
+						<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
 
 					</div><!-- .hentry -->
 
-					<?php do_atomic( 'after_entry' ); // enterprise_after_entry ?>
+					<?php do_atomic( 'after_entry' ); // vote_denton_after_entry ?>
 
 					<?php get_sidebar( 'after-singular' ); // Loads the sidebar-after-singular.php template. ?>
 
-					<?php do_atomic( 'after_singular' ); // enterprise_after_singular ?>
+					<?php do_atomic( 'after_singular' ); // vote_denton_after_singular ?>
 
 					<?php comments_template( '/comments.php', true ); // Loads the comments.php template. ?>
 
@@ -72,12 +72,12 @@ get_header(); // Loads the header.php template. ?>
 
 		</div><!-- .hfeed -->
 
-		<?php do_atomic( 'close_content' ); // enterprise_close_content ?>
+		<?php do_atomic( 'close_content' ); // vote_denton_close_content ?>
 
 		<?php get_template_part( 'loop-nav' ); // Loads the loop-nav.php template. ?>
 
 	</div><!-- #content -->
 
-	<?php do_atomic( 'after_content' ); // enterprise_after_content ?>
+	<?php do_atomic( 'after_content' ); // vote_denton_after_content ?>
 
 <?php get_footer(); // Loads the footer.php template. ?>
