@@ -48,5 +48,4 @@ google.maps.Polygon.prototype.Contains = function(point) {
 		return (blue >= red);
 
 	}
-
 };
