@@ -86,7 +86,8 @@ load_district_data = (district)->
 		several polygons that encompass the boundaries		
 		###
 		regions = (make_region district_data, district for district_data in data.Placemark.MultiGeometry.Polygon ) if data.Placemark.MultiGeometry.Polygon
-		districts[district] = regions
+		district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text']
+		districts[district_name] = regions
 
 
 ###

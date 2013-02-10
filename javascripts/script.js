@@ -113,7 +113,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
       		several polygons that encompass the boundaries
       */
 
-      var district_data, regions;
+      var district_data, district_name, regions;
       if (data.Placemark.MultiGeometry.Polygon) {
         regions = (function() {
           var _i, _len, _ref, _results;
@@ -126,7 +126,8 @@ color data is present in the JSON feeds but each district is the same, so we ass
           return _results;
         })();
       }
-      return districts[district] = regions;
+      district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text'];
+      return districts[district_name] = regions;
     });
   };
 
