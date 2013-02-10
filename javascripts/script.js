@@ -11,13 +11,13 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
 (function() {
-  var $, $doc, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, district_contains_point, districts, do_map, find_district_by_point, load_district_data, load_districts, make_region, map, region_contains_point;
+  var $, $doc, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, district_contains_point, districts, do_map, find_district_by_point, load_district_data, load_districts, make_region, map, region_contains_point, reject, report_district;
 
   colors = {
-    d1: "#ff0000",
-    d2: "#00ff00",
-    d3: "#0000ff",
-    d4: "#cccccc"
+    "DISTRICT 1": "#ff0000",
+    "DISTRICT 2": "#00ff00",
+    "DISTRICT 3": "#0000ff",
+    "DISTRICT 4": "#FF7D40"
   };
 
   $ = jQuery;
@@ -27,6 +27,23 @@ color data is present in the JSON feeds but each district is the same, so we ass
   districts = {};
 
   map = null;
+
+  /*
+  mimic ruby's reject method
+  */
+
+
+  reject = function(array, predicate) {
+    var res, value, _i, _len;
+    res = [];
+    for (_i = 0, _len = array.length; _i < _len; _i++) {
+      value = array[_i];
+      if (!predicate(value)) {
+        res.push(value);
+      }
+    }
+    return res;
+  };
 
   /*
   take a string ex. -97.127557979037221,33.156515808050976
@@ -96,7 +113,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
       map: map
     });
     google.maps.event.addListener(polygon, 'click', function() {
-      return console.log(district);
+      return report_district(district);
     });
     return polygon;
   };
@@ -114,6 +131,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
       */
 
       var district_data, district_name, regions;
+      district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text'];
       if (data.Placemark.MultiGeometry.Polygon) {
         regions = (function() {
           var _i, _len, _ref, _results;
@@ -121,12 +139,11 @@ color data is present in the JSON feeds but each district is the same, so we ass
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             district_data = _ref[_i];
-            _results.push(make_region(district_data, district));
+            _results.push(make_region(district_data, district_name));
           }
           return _results;
         })();
       }
-      district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text'];
       return districts[district_name] = regions;
     });
   };
@@ -185,7 +202,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
   };
 
   find_district_by_point = function(point) {
-    var district, final_district, foo, region;
+    var district, final_district, foo, region, results;
     final_district = [];
     foo = (function() {
       var _results;
@@ -196,7 +213,17 @@ color data is present in the JSON feeds but each district is the same, so we ass
       }
       return _results;
     })();
-    return console.log(foo);
+    results = reject(foo, function(value) {
+      return value === null;
+    });
+    if (results.length === 1) {
+      return report_district(results[0]);
+    }
+  };
+
+  report_district = function(district) {
+    $('#your_district').text("You reside in " + district + "!");
+    return console.log(district);
   };
 
   do_map = function() {
@@ -207,7 +234,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
     geocoder = new google.maps.Geocoder();
     latlng = new google.maps.LatLng(33.214851, -97.133045);
     map_options = {
-      zoom: 10,
+      zoom: 11,
       center: latlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -216,7 +243,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
       var data, geocode_success;
       event.preventDefault();
       data = {
-        'address': $query.val() + "Denton TX"
+        'address': $query.val() + " Denton TX"
       };
       geocode_success = function(results, status) {
         var marker, marker_data;

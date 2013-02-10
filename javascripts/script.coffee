@@ -9,10 +9,10 @@ Author:
 color data is present in the JSON feeds but each district is the same, so we assign unique values
 ###
 colors = 
-	d1: "#ff0000"
-	d2: "#00ff00"
-	d3: "#0000ff"
-	d4: "#cccccc"
+	"DISTRICT 1": "#ff0000"
+	"DISTRICT 2": "#00ff00"
+	"DISTRICT 3": "#0000ff"
+	"DISTRICT 4": "#FF7D40"
 
 $ = jQuery
 
@@ -22,8 +22,13 @@ districts = {}
 
 map = null
 
-# log = (data)->
-# 	console.log data
+###
+mimic ruby's reject method
+###
+reject = (array, predicate) ->
+  res = []
+  res.push(value) for value in array when not predicate value
+  res
 
 
 ###
@@ -71,7 +76,7 @@ make_region = (data, district)->
 		fillOpacity: 0.2
 		map: map
 	google.maps.event.addListener polygon, 'click', ()->
-		console.log district
+		report_district district
 
 	polygon
 
@@ -85,8 +90,8 @@ load_district_data = (district)->
 		district data, among other things, will contain:
 		several polygons that encompass the boundaries		
 		###
-		regions = (make_region district_data, district for district_data in data.Placemark.MultiGeometry.Polygon ) if data.Placemark.MultiGeometry.Polygon
 		district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text']
+		regions = (make_region district_data, district_name for district_data in data.Placemark.MultiGeometry.Polygon ) if data.Placemark.MultiGeometry.Polygon
 		districts[district_name] = regions
 
 
@@ -115,10 +120,17 @@ district_contains_point = (district, region, point)->
 	return district if parseInt( foo.join(""), 10) != 0
 	null
 
+
 find_district_by_point = (point)->
 	final_district = []
 	foo = ( district_contains_point district, region, point for district, region of districts )
-	console.log foo
+	results = reject foo, (value)-> value == null 
+	report_district results[0] if results.length is 1
+
+
+report_district = (district)->
+	$('#your_district').text( "You reside in " + district + "!")
+	console.log district
 
 
 do_map = ()->
@@ -129,7 +141,7 @@ do_map = ()->
 	geocoder = new google.maps.Geocoder()
 	latlng = new google.maps.LatLng(33.214851,-97.133045)
 	map_options = 
-		zoom: 10
+		zoom: 11
 		center: latlng
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 
@@ -139,7 +151,7 @@ do_map = ()->
 		event.preventDefault()
 
 		data = 
-			'address':  $query.val() + "Denton TX"
+			'address':  $query.val() + " Denton TX"
 
 		geocode_success = (results, status)->
 			if status is google.maps.GeocoderStatus.OK
@@ -158,14 +170,3 @@ do_map = ()->
 	$button.click lookup_address
 
 $doc.ready do_map
-
-# p1 = new google.maps.LatLng(33.214851,-97.133045)
-# p2 = new google.maps.LatLng(34.214851,-97.133045)
-# p3 = new google.maps.LatLng(33.214851,-98.133045)
-
-# foo = new google.maps.Polygon
-# 		paths: [p1, p2, p3]
-
-# log foo.Contains(new google.maps.LatLng(33.314851,-97.233045))
-# log foo.Contains(new google.maps.LatLng(35.214851,-99.133045))
-
