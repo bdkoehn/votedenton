@@ -117,13 +117,16 @@ districts have many regions
 ###
 district_contains_point = (district, region, point)->
 	foo = ( region_contains_point region, point for region in districts[district] )
-	reject foo, (value)-> value == false
+	results = reject foo, (value)-> value == false
+	return district if results.length > 0
+	false
 
 
 find_district_by_point = (point)->
 	final_district = []
 	foo = ( district_contains_point district, region, point for district, region of districts )
-	results = reject foo, (value)-> value == null 
+	results = reject foo, (value)-> value == false
+	console.log results 
 	report_district results[0] if results.length is 1
 
 
@@ -162,8 +165,8 @@ do_map = ()->
 				map.setCenter results[0].geometry.location
 
 				marker_data = 
-	        map: map,
-	        position: results[0].geometry.location
+					map: map,
+					position: results[0].geometry.location
 				marker = new google.maps.Marker marker_data
 
 				find_district_by_point results[0].geometry.location
