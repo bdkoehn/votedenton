@@ -238,6 +238,9 @@ color data is present in the JSON feeds but each district is the same, so we ass
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), map_options);
+    google.maps.event.addListener(map, 'click', function() {
+      return $('#your_district').text("Location indicated doesn't appear to be part of a Denton county district. Please type in your address, or click on the map to find your district.");
+    });
     lookup_address = function(event) {
       var data, geocode_success;
       event.preventDefault();
