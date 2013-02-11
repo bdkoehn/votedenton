@@ -7,6 +7,10 @@ Resources to Help Voters in City of Denton Elections
 
 * Design website
 * Setup website framework and database
+
+
+# Completed
+
 * Build input form for address
 * Get the user's location and display it on a Google Map
 * Get the user's voting district and diplsay it
