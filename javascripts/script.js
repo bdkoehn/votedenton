@@ -184,7 +184,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   district_contains_point = function(district, region, point) {
-    var foo;
+    var foo, results;
     foo = (function() {
       var _i, _len, _ref, _results;
       _ref = districts[district];
@@ -195,9 +195,13 @@ color data is present in the JSON feeds but each district is the same, so we ass
       }
       return _results;
     })();
-    return reject(foo, function(value) {
+    results = reject(foo, function(value) {
       return value === false;
     });
+    if (results.length > 0) {
+      return district;
+    }
+    return false;
   };
 
   find_district_by_point = function(point) {
@@ -213,7 +217,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
       return _results;
     })();
     results = reject(foo, function(value) {
-      return value === null;
+      return value === false;
     });
     if (results.length === 1) {
       return report_district(results[0]);
