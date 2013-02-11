@@ -108,8 +108,8 @@ regions have an outer perimeter
 regions also have exclusion zones
 ###
 region_contains_point = (region, point)->
-	return 1 if region.Contains point
-	return 0
+	return true if region.Contains point
+	false
 
 
 ### 
@@ -117,8 +117,7 @@ districts have many regions
 ###
 district_contains_point = (district, region, point)->
 	foo = ( region_contains_point region, point for region in districts[district] )
-	return district if parseInt( foo.join(""), 10) != 0
-	null
+	reject foo, (value)-> value == false
 
 
 find_district_by_point = (point)->

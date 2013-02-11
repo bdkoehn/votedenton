@@ -173,9 +173,9 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
   region_contains_point = function(region, point) {
     if (region.Contains(point)) {
-      return 1;
+      return true;
     }
-    return 0;
+    return false;
   };
 
   /* 
@@ -195,10 +195,9 @@ color data is present in the JSON feeds but each district is the same, so we ass
       }
       return _results;
     })();
-    if (parseInt(foo.join(""), 10) !== 0) {
-      return district;
-    }
-    return null;
+    return reject(foo, function(value) {
+      return value === false;
+    });
   };
 
   find_district_by_point = function(point) {
