@@ -28,6 +28,19 @@ get_header(); // Loads the header.php template. ?>
 					<div id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
 						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
+						
+						<form>
+							<fieldset>
+								<legend>Find your district</legend>
+								
+								<label>Address</label>
+								
+								<input type="text" placeholder="Type something…">
+								<span class="help-block">Street number and name.</span>
+								
+								<button type="submit" class="btn">Submit</button>
+							</fieldset>
+						</form>
 
 						<div class="entry-content">
 							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
