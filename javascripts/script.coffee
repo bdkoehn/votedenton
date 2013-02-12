@@ -26,9 +26,9 @@ map = null
 mimic ruby's reject method
 ###
 reject = (array, predicate) ->
-  res = []
-  res.push(value) for value in array when not predicate value
-  res
+	res = []
+	res.push(value) for value in array when not predicate value
+	res
 
 
 ###
