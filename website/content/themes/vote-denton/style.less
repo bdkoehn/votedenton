@@ -5,6 +5,7 @@
  * # General Content
  * # Sidebars
  * # Footer
+ * # Misc
  * # Media Queries
  * 
  * WordPress calls this LESS file directly and it is compiled by PHP
@@ -22,13 +23,16 @@
 
 @import 'css/bootstrap/bootstrap.less';
 @import 'css/bootstrap/responsive.less';
+@import 'css/forms.less';
 @import 'css/layout.less';
 @import 'css/variables.less';
 
 /*
  * Base
  ***********************************************************/
-body {}
+body {
+  background: @blue;
+}
 
 ::-moz-selection {
     background: #b3d4fc;
@@ -38,6 +42,11 @@ body {}
 ::selection {
     background: #b3d4fc;
     text-shadow: none;
+}
+
+.container {
+  margin: 0 auto;
+  width: 480px;
 }
 
 /*
@@ -59,6 +68,26 @@ body {}
  ***********************************************************/
 #content {}
 
+.question {
+  border: 1px solid #556C7B;
+  .box-shadow(0 1px 4px rgba(0,0,0,.065));
+  #gradient > .vertical(@white, @grayLighter);
+  margin: 0;
+  padding: 5px 20px;
+  .clearfix();
+  
+  h1 {
+    color: @red;
+    font-size: @fontSizeLarge;
+    margin: 0;
+  }
+}
+
+#map-canvas {
+  height: 480px;
+  width: 480px;
+}
+
 /*
  * Sidebars
  ***********************************************************/
@@ -69,9 +98,32 @@ body {}
 /*
  * Footer
  ***********************************************************/
-#footer {}
+#footer {
+  border: 1px solid #556C7B;
+  .box-shadow(0 1px 4px rgba(0,0,0,.065));
+  #gradient > .vertical(@white, @grayLighter);
+  padding: 5px 20px;
+  .clearfix();
+}
 
 
+/*
+ * Misc
+ ***********************************************************/
+.flex-map {
+  position: relative;
+  padding-top: 25px;
+  padding-bottom: 100%;
+  height: 0;
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  &.widescreen { padding-bottom: 57.25%; }
+  &.vimeo { padding-top: 0; }
+
+  iframe, object, embed, video { position: absolute; top: 0; width: 100%; height: 100%; }
+
+}
 
 /*
  * Media Queries
