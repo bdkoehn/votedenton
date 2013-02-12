@@ -1,0 +1,69 @@
+/*
+ * Column layouts
+ ***********************************************************/
+
+/* 2 columns, left content */
+.layout-2c-l #content, .layout-default #content {
+  float: left;
+}
+.layout-2c-l #sidebar-primary, .layout-default #sidebar-primary {
+  float: right;
+}
+.layout-2c-l #sidebar-secondary, .layout-default #sidebar-secondary {
+  clear: right;
+  float: right;
+}
+
+/* 2 columns, right content */
+.layout-2c-r #content {
+  float: right;
+}
+.layout-2c-r #sidebar-primary {
+  float: left;
+}
+.layout-2c-r #sidebar-secondary {
+  float: left;
+  clear: left;
+}
+
+/* 3 columns, left content */
+.layout-3c-l #content {
+  float: left;
+}
+.layout-3c-l #sidebar-primary, .layout-3c-l #sidebar-secondary {
+  clear: none;
+  float: left;
+}
+.layout-3c-l #sidebar-secondary {
+  padding: 0;
+  border: none;
+}
+
+/* 3 columns, right content */
+.layout-3c-r #content {
+  float: right;
+}
+.layout-3c-r #sidebar-primary, .layout-3c-r #sidebar-secondary {
+  clear: none;
+  float: left;
+}
+.layout-3c-r #sidebar-secondary {
+  padding: 0;
+  border: none;
+}
+
+/* 3 columns, center content */
+.layout-3c-c #content {
+  float: left;
+  margin-left: 330px;
+}
+.layout-3c-c #sidebar-primary {
+  float: left;
+  margin-left: -865px;
+}
+.layout-3c-c #sidebar-secondary {
+  clear: none;
+  float: right;
+  padding: 0;
+  border: none;
+}

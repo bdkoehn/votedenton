@@ -13,7 +13,7 @@ get_header(); // Loads the header.php template. ?>
 
 	<?php do_atomic( 'before_content' ); // vote_denton_before_content ?>
 
-	<div id="content" class="<?php echo vote_denton_get_layout( 'content' ); ?>">
+	<div id="content">
 
 		<?php do_atomic( 'open_content' ); // vote_denton_open_content ?>
 
@@ -28,6 +28,67 @@ get_header(); // Loads the header.php template. ?>
 					<div id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
 						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
+						
+						<section id="what-district">
+							
+							<header class="question">
+						
+								<form id="map-yourself" class="form-inline">
+									
+									<fieldset>
+										
+										<div class="container">
+											
+											<h1>What district am I in?</h1>
+																					
+											<input type="text" class="input-xlarge" id="address" placeholder="What is your address?">
+											
+											<button type="submit" id="map-button" class="btn">Submit</button>
+										
+										</div><!-- .container -->
+										
+									</fieldset>
+									
+								</form><!-- #map-yourself -->
+								
+							</header>
+
+							<div class="container">
+							
+								<div class="flex-map">
+									<div id="map-canvas"></div>
+								</div>
+							
+							</div><!-- .container -->
+													
+						</section><!-- #what-district -->
+
+						<section id="am-i-registered">
+							
+							<header class="question">
+						
+								<form id="find-yourself" class="form-inline">
+									
+									<fieldset>
+										
+										<div class="container">
+											
+											<h1>Am I registered to vote?</h1>
+																					
+											<input type="text" class="input-medium" id="fname" placeholder="First name...">
+											<input type="text" class="input-medium" id="lname" placeholder="Last name...">
+											
+											<button type="submit" id="name-button" class="btn">Submit</button>
+										
+										</div><!-- .container -->
+										
+									</fieldset>
+									
+								</form><!-- #find-yourself -->
+								
+							</header>
+						
+						</section><!-- #am-i-registered -->
 
 						<div class="entry-content">
 							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
