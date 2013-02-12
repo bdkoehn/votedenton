@@ -124,7 +124,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   load_district_data = function(district) {
-    return $.getJSON("/json/" + district + ".json", function(data, status) {
+    return $.getJSON("/content/themes/vote-denton/js/" + district + ".json", function(data, status) {
       /*
       		district data, among other things, will contain:
       		several polygons that encompass the boundaries

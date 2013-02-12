@@ -85,7 +85,7 @@ make_region = (data, district)->
 grab JSON from the server for a district
 ###
 load_district_data = (district)->
-	$.getJSON "/json/" + district + ".json", (data, status)->
+	$.getJSON "/content/themes/vote-denton/js/" + district + ".json", (data, status)->
 		###
 		district data, among other things, will contain:
 		several polygons that encompass the boundaries
