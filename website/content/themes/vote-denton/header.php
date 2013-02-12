@@ -23,6 +23,10 @@
 	<title><?php hybrid_document_title(); ?></title>
 	
 	<?php wp_head(); // wp_head ?>
+	<!-- Scripts -->
+	<script type="text/javascript" src="js/plugins.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<!-- End Scripts -->
 	<?php if( $post ) echo get_post_meta( $post->ID, 'enterprise-css', true ); ?>
 
 </head>
