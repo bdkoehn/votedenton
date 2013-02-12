@@ -94,7 +94,7 @@
 	 grab JSON from the server for a district
 	 */
 	load_district_data = function(district) {
-		return $.getJSON("/content/themes/vote-denton/js/" + district + ".json", function(data, status) {
+		return $.getJSON("/content/themes/vote-denton/js/districts/" + district + ".json", function(data, status) {
 			
 			/*
 			 district data, among other things, will contain:

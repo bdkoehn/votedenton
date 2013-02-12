@@ -93,7 +93,7 @@ function vote_denton_enqueue_scripts() {
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'google-maps','https://maps.googleapis.com/maps/api/js?key=AIzaSyDlNLZo7t1szcryM7Lc8uhJHnx5ZEMfjCo&sensor=false', false, false, false );
 	wp_enqueue_script( 'bootstrap',	trailingslashit( get_stylesheet_directory_uri() ) . 'js/vendor/bootstrap.min.js', array( 'jquery' ), false, true );
-	wp_enqueue_script( 'raycasting',trailingslashit( get_stylesheet_directory_uri() ) . 'js/raycasting.js', false, false, true );
+	wp_enqueue_script( 'plugins',	trailingslashit( get_stylesheet_directory_uri() ) . 'js/plugins.js', false, false, true );
 	wp_enqueue_script( 'app',		trailingslashit( get_stylesheet_directory_uri() ) . 'js/app.js', array( 'jquery' ), false, true );
 
 }
