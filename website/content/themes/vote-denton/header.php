@@ -2,9 +2,9 @@
 /**
  * Header Template
  *
- * The header template is generally used on every page of your site. Nearly all other templates call it 
- * somewhere near the top of the file. It is used mostly as an opening wrapper, which is closed with the 
- * footer.php file. It also executes key functions needed by the theme, child themes, and plugins. 
+ * The header template is generally used on every page of your site. Nearly all other templates call it
+ * somewhere near the top of the file. It is used mostly as an opening wrapper, which is closed with the
+ * footer.php file. It also executes key functions needed by the theme, child themes, and plugins.
  *
  * @package Vote Denton
  * @subpackage Template
@@ -16,48 +16,48 @@
 <!--[if IE 8]>         <html <?php language_attributes(); ?> class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html <?php language_attributes(); ?> class="no-js"> <!--<![endif]-->
 <head>
-	
-	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php bloginfo( 'charset' ); ?>" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width">
-	<title><?php hybrid_document_title(); ?></title>
-	
-	<?php wp_head(); // wp_head ?>
-	<?php if( $post ) echo get_post_meta( $post->ID, 'enterprise-css', true ); ?>
+
+  <meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php bloginfo( 'charset' ); ?>" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+  <title><?php hybrid_document_title(); ?></title>
+
+  <?php wp_head(); // wp_head ?>
+  <?php if( $post ) echo get_post_meta( $post->ID, 'enterprise-css', true ); ?>
 
 </head>
 
 <body class="<?php hybrid_body_class(); ?> mapping_test">
 
-	<?php do_atomic( 'open_body' ); // vote_denton_open_body ?>
+  <?php do_atomic( 'open_body' ); // vote_denton_open_body ?>
 
-	<?php do_atomic( 'before_header' ); // vote_denton_before_header ?>
+  <?php do_atomic( 'before_header' ); // vote_denton_before_header ?>
 
-	<div id="header" class="row">
-		
-		<div class="container">
+  <div id="header" class="row">
 
-			<?php do_atomic( 'open_header' ); // vote_denton_open_header ?>
-	
-			<div id="branding" class="span6">
-				<?php hybrid_site_title(); ?>
-				<?php hybrid_site_description(); ?>
-			</div><!-- #branding -->
-			
-			<?php get_template_part( 'menu', 'primary' ); // Loads the menu-primary.php template. ?>
-	
-			<?php do_atomic( 'header' ); // vote_denton_header ?>
-	
-			<?php do_atomic( 'close_header' ); // vote_denton_close_header ?>
-		
-		</div><!-- .container -->
+    <div class="container">
 
-	</div><!-- #header.row -->
+      <?php do_atomic( 'open_header' ); // vote_denton_open_header ?>
 
-	<?php do_atomic( 'after_header' ); // vote_denton_after_header ?>
+      <div id="branding" class="span6">
+        <?php hybrid_site_title(); ?>
+        <?php hybrid_site_description(); ?>
+      </div><!-- #branding -->
 
-	<?php do_atomic( 'before_main' ); // vote_denton_before_main ?>
+      <?php get_template_part( 'menu', 'primary' ); // Loads the menu-primary.php template. ?>
 
-	<div id="main"  class="row">
+      <?php do_atomic( 'header' ); // vote_denton_header ?>
 
-		<?php do_atomic( 'open_main' ); // vote_denton_open_main ?>
+      <?php do_atomic( 'close_header' ); // vote_denton_close_header ?>
+
+    </div><!-- .container -->
+
+  </div><!-- #header.row -->
+
+  <?php do_atomic( 'after_header' ); // vote_denton_after_header ?>
+
+  <?php do_atomic( 'before_main' ); // vote_denton_before_main ?>
+
+  <div id="main"  class="row">
+
+    <?php do_atomic( 'open_main' ); // vote_denton_open_main ?>
