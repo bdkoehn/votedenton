@@ -13,7 +13,7 @@ get_header(); // Loads the header.php template. ?>
 
 	<?php do_atomic( 'before_content' ); // vote_denton_before_content ?>
 
-	<div id="content" class="<?php echo vote_denton_get_layout( 'content' ); ?>">
+	<div id="content">
 
 		<?php do_atomic( 'open_content' ); // vote_denton_open_content ?>
 
@@ -29,18 +29,35 @@ get_header(); // Loads the header.php template. ?>
 
 						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
 						
-						<form>
-							<fieldset>
-								<legend>Find your district</legend>
+						<section id="what-district" class="question">
+						
+							<form id="map-yourself" class="form-inline">
 								
-								<label>Address</label>
+								<fieldset>
+									
+									<div class="container">
+										
+										<h1>What district am I in?</h1>
+																				
+										<input type="text" id="address" placeholder="What is your address?">
+										
+										<button type="submit" id="map-button" class="btn">Submit</button>
+									
+									</div><!-- .container -->
+									
+								</fieldset>
 								
-								<input type="text" placeholder="Type something…">
-								<span class="help-block">Street number and name.</span>
-								
-								<button type="submit" class="btn">Submit</button>
-							</fieldset>
-						</form>
+							</form><!-- #map-yourself -->
+						
+						</section>
+						
+						<div class="container">
+						
+							<div class="flex-map">
+								<div id="map-canvas"></div>
+							</div>
+						
+						</div><!-- .container -->
 
 						<div class="entry-content">
 							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
