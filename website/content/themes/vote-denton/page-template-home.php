@@ -2,7 +2,7 @@
 /**
  * Template Name: Home
  *
- * This is the default page template.  It is used when a more specific template can't be found to display 
+ * This is the default page template.  It is used when a more specific template can't be found to display
  * singular views of pages.
  *
  * @package Vote Denton
@@ -28,73 +28,81 @@ get_header(); // Loads the header.php template. ?>
 					<div id="post-<?php the_ID(); ?>" class="<?php hybrid_entry_class(); ?>">
 
 						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
-						
+
 						<section id="what-district">
-							
+
 							<header class="question">
-						
+
 								<form id="map-yourself" class="form-inline">
-									
+
 									<fieldset>
-										
+
 										<div class="container">
-											
+
 											<h1>What district am I in?</h1>
-																					
+
 											<input type="text" class="input-xlarge" id="address" placeholder="What is your address?">
-											
+
 											<button type="submit" id="map-button" class="btn">Submit</button>
-										
+
 										</div><!-- .container -->
-										
+
 									</fieldset>
-									
+
 								</form><!-- #map-yourself -->
-								
+
 							</header>
 
 							<div class="container">
-							
-								<div class="flex-map">
-									<div id="map-canvas"></div>
+								
+							<div class="row-fluid">
+								<div class="span12"><h4 id="your_district"></h4></div>
+							</div>	
+								
+							<div class="row-fluid">
+								<div class="span12">
+									<div class="flex-map">
+										<div id="map-canvas"></div>
+									</div>
 								</div>
-							
-							</div><!-- .container -->
-													
+							</div>
+
+						</div><!-- .container -->
+
 						</section><!-- #what-district -->
 
 						<section id="am-i-registered">
-							
+
 							<header class="question">
-						
+
 								<form id="find-yourself" class="form-inline">
-									
+
 									<fieldset>
-										
+
 										<div class="container">
-											
+
 											<h1>Am I registered to vote?</h1>
-																					
+
 											<input type="text" class="input-medium" id="fname" placeholder="First name...">
 											<input type="text" class="input-medium" id="lname" placeholder="Last name...">
-											
+
 											<button type="submit" id="name-button" class="btn">Submit</button>
-										
+
 										</div><!-- .container -->
-										
+
 									</fieldset>
-									
+
 								</form><!-- #find-yourself -->
-								
+
 							</header>
-						
+
 						</section><!-- #am-i-registered -->
 
 						<div class="entry-content">
 							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
 							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
 						</div><!-- .entry-content -->
-						
+
 						<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
 
 					</div><!-- .hentry -->
