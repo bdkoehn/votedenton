@@ -18,6 +18,10 @@ $ = jQuery
 
 $doc = $(document)
 
+downtown = new google.maps.LatLng(33.214851,-97.133045)
+region_zoom = 11
+detail_zoom = region_zoom + 4
+
 districts = {}
 
 ###
@@ -84,7 +88,6 @@ make_region = (data, district)->
     fillOpacity: 0.2
     map: map
   google.maps.event.addListener polygon, 'click', (event)->
-    console.log event
     mark_point event.latLng
     report_district district
 
@@ -144,14 +147,20 @@ given a location on the map, via address search or click
 show that location on the map
 ###
 
-mark_point = (point)->
+reset_map = ()->
+  marker.setMap(null) if marker
+  map.setCenter downtown
+  map.setZoom region_zoom
+
+
+mark_point = (point, zoom = detail_zoom )->
   map.setCenter point
+  map.setZoom detail_zoom
 
   marker_data =
     map: map,
     position: point
   marker.setMap(null) if marker
-
   marker = new google.maps.Marker marker_data
 
   find_district_by_point point
@@ -168,15 +177,15 @@ do_map = ()->
   $map = $('#map-canvas')
 
   geocoder = new google.maps.Geocoder()
-  latlng = new google.maps.LatLng(33.214851,-97.133045)
   map_options =
-    zoom: 11
-    center: latlng
+    zoom: region_zoom
+    center: downtown
     mapTypeId: google.maps.MapTypeId.ROADMAP
 
   map = new google.maps.Map document.getElementById('map-canvas'), map_options
 
   google.maps.event.addListener map, 'click', ()->
+    reset_map()
     $('#your_district').text( "Location indicated doesn't appear to be part of a Denton county district. Please type in your address, or click on the map to find your district." )
 
 
@@ -189,7 +198,8 @@ do_map = ()->
     geocode_success = (results, status)->
       if status is google.maps.GeocoderStatus.OK
         mark_point results[0].geometry.location
-
+      else
+        reset_map()
 
     geocoder.geocode data, geocode_success
   $button.click lookup_address
