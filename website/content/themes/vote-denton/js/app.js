@@ -11,7 +11,7 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
 (function() {
-  var $, $doc, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, district_contains_point, districts, do_map, find_district_by_point, load_district_data, load_districts, make_region, map, region_contains_point, reject, report_district;
+  var $, $doc, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, district_contains_point, districts, do_map, find_district_by_point, load_district_data, load_districts, make_region, map, mark_point, marker, region_contains_point, reject, report_district;
 
   colors = {
     "DISTRICT 1": "#ff0000",
@@ -26,7 +26,19 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
   districts = {};
 
+  /*
+  the map object
+  */
+
+
   map = null;
+
+  /*
+  marker, we only have one
+  */
+
+
+  marker = null;
 
   /*
   mimic ruby's reject method
@@ -112,7 +124,9 @@ color data is present in the JSON feeds but each district is the same, so we ass
       fillOpacity: 0.2,
       map: map
     });
-    google.maps.event.addListener(polygon, 'click', function() {
+    google.maps.event.addListener(polygon, 'click', function(event) {
+      console.log(event);
+      mark_point(event.latLng);
       return report_district(district);
     });
     return polygon;
@@ -126,8 +140,8 @@ color data is present in the JSON feeds but each district is the same, so we ass
   load_district_data = function(district) {
     return $.getJSON("/content/themes/vote-denton/js/" + district + ".json", function(data, status) {
       /*
-      		district data, among other things, will contain:
-      		several polygons that encompass the boundaries
+          district data, among other things, will contain:
+          several polygons that encompass the boundaries
       */
 
       var district_data, district_name, regions;
@@ -224,9 +238,28 @@ color data is present in the JSON feeds but each district is the same, so we ass
     }
   };
 
+  /*
+  given a location on the map, via address search or click
+  show that location on the map
+  */
+
+
+  mark_point = function(point) {
+    var marker_data;
+    map.setCenter(point);
+    marker_data = {
+      map: map,
+      position: point
+    };
+    if (marker) {
+      marker.setMap(null);
+    }
+    marker = new google.maps.Marker(marker_data);
+    return find_district_by_point(point);
+  };
+
   report_district = function(district) {
-    $('#your_district').text("You reside in " + district + "!");
-    return console.log(district);
+    return $('#your_district').text("You reside in " + district + "!");
   };
 
   do_map = function() {
@@ -252,15 +285,8 @@ color data is present in the JSON feeds but each district is the same, so we ass
         'address': $query.val() + " Denton TX"
       };
       geocode_success = function(results, status) {
-        var marker, marker_data;
         if (status === google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          marker_data = {
-            map: map,
-            position: results[0].geometry.location
-          };
-          marker = new google.maps.Marker(marker_data);
-          return find_district_by_point(results[0].geometry.location);
+          return mark_point(results[0].geometry.location);
         }
       };
       return geocoder.geocode(data, geocode_success);
