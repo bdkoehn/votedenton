@@ -3,8 +3,7 @@
 Author:
 
 ###
-
-
+['fizz' unless i%3] + ['buzz' unless i%5] or i for i in [1..100]
 ###
 color data is present in the JSON feeds but each district is the same, so we assign unique values
 ###
@@ -14,15 +13,56 @@ colors =
   "DISTRICT 3": "#2C7BB6"
   "DISTRICT 4": "#D7191C"
 
+
+###
+jquery and cached selectors
+###
 $ = jQuery
-
 $doc = $(document)
+$query = $('#address')
+$button = $('#map-button')
+$map = $('#map-canvas')
 
+
+###
+google map options
+###
 downtown = new google.maps.LatLng(33.214851,-97.133045)
-geocoder = new google.maps.Geocoder()
-
 region_zoom = 11
 detail_zoom = region_zoom + 4
+district_bounds = new google.maps.LatLngBounds()
+district_bounds.extend downtown
+map = null
+marker = null
+
+
+reset_map = ()->
+  marker.setMap(null) if marker
+  map.panToBounds district_bounds
+  map.setZoom region_zoom
+
+
+
+###
+geocoder for doing address/latlng lookups
+###
+geocoder = new google.maps.Geocoder()
+
+###
+handle data from google geocoder api
+do some basic checks to ensure data is a street
+###
+geocoder_success = (results, status)->
+  address = results[0].formatted_address
+  reset_map() if status is not google.maps.GeocoderStatus.OK
+  if status is google.maps.GeocoderStatus.OK
+    if results[0].types.indexOf('street_address') > -1
+      address = results[0].formatted_address
+      mark_point results[0].geometry.location, detail_zoom, address
+    else
+      mark_point results[0].geometry.location, detail_zoom
+
+
 
 districts = {}
 
@@ -53,8 +93,9 @@ return a google LatLng object
 create_gmap_latlng_from_coordinate_pairs = (pair)->
   parts = pair.split(",")
   console.log 'data is malformed', pair if parts.length is not 2
-  new google.maps.LatLng( parts[1], parts[0])
-
+  point = new google.maps.LatLng( parts[1], parts[0])
+  district_bounds.extend point
+  point
 
 
 ###
@@ -62,13 +103,6 @@ create_gmap_latlng_from_coordinate_pairs = (pair)->
 ###
 create_gmap_path = (data)->
   ( create_gmap_latlng_from_coordinate_pairs pair for pair in data.LinearRing.coordinates.split(" ") )
-
-# ###
-# take the raw JSON coordinates and turn it into a google maps polygon
-# ###
-# create_gmap_polygon = (data)->
-#   # coordinates = ( create_gmap_latlng_from_coordinate_pairs pair for pair in data.LinearRing.coordinates.split(" ") )
-
 
 
 ###
@@ -90,23 +124,10 @@ make_region = (data, district)->
     fillOpacity: 0.4
     map: map
   google.maps.event.addListener polygon, 'click', (event)->
-
     data =
       latLng: event.latLng
-    geocoder.geocode data, (results, status)->
-      if (status == google.maps.GeocoderStatus.OK)
-        console.log status, results
-        if results[0].types.indexOf('street_address') > -1
-          address = results[0].formatted_address
-          $query.val( address )
-          mark_point event.latLng, detail_zoom, address
-        else
-          mark_point event.latLng, detail_zoom
-
-
-    # report_district district
-
-  polygon
+    geocoder.geocode data, geocoder_success
+  return polygon
 
 
 ###
@@ -131,20 +152,12 @@ load_districts = ()->
 
 $doc.ready load_districts
 
-###
-regions have an outer perimeter
-regions also have exclusion zones
-###
-region_contains_point = (region, point)->
-  return true if region.Contains point
-  false
-
 
 ###
 districts have many regions
 ###
 district_contains_point = (district, region, point)->
-  foo = ( region_contains_point region, point for region in districts[district] )
+  foo = ( region.Contains point for region in districts[district] )
   results = reject foo, (value)-> value == false
   return district if results.length > 0
   false
@@ -155,18 +168,12 @@ find_district_by_point = (point)->
   foo = ( district_contains_point district, region, point for district, region of districts )
   results = reject foo, (value)-> value == false
   return false if results.length is not 1
-  # report_district results[0]
   results[0]
 
 ###
 given a location on the map, via address search or click
 show that location on the map
 ###
-
-reset_map = ()->
-  marker.setMap(null) if marker
-  map.setCenter downtown
-  map.setZoom region_zoom
 
 
 mark_point = (point, zoom = detail_zoom, address = "Location" )->
@@ -186,6 +193,10 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
   tmpl = doT.template(tmplString)
 
 
+  $query.val( "Denton, TX" ) if address is "Location"
+  $query.val( address ) unless address is "Location"
+
+
   infoWindow = new google.maps.InfoWindow
     content: tmpl
       district: district
@@ -196,17 +207,10 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
   infoWindow.open(map, marker)
 
 
-# report_district = (district)->
-#   $('#your_district').text( "You reside in " + district + "!")
 
-
-$query = $('#address')
 
 do_map = ()->
-  $button = $('#map-button')
-  $map = $('#map-canvas')
 
-  # geocoder = new google.maps.Geocoder()
   map_options =
     zoom: region_zoom
     center: downtown
@@ -226,16 +230,7 @@ do_map = ()->
     data =
       'address':  $query.val() + " Denton TX"
 
-    geocode_success = (results, status)->
-      address = results[0].formatted_address
-      $query.val( address )
-
-      if status is google.maps.GeocoderStatus.OK
-        mark_point results[0].geometry.location, detail_zoom, address
-      else
-        reset_map()
-
-    geocoder.geocode data, geocode_success
+    geocoder.geocode data, geocoder_success
   $button.click lookup_address
 
 $doc.ready do_map
