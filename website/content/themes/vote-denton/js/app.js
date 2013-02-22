@@ -5,30 +5,95 @@ Author:
 */
 
 
-/*
-color data is present in the JSON feeds but each district is the same, so we assign unique values
-*/
-
-
 (function() {
-  var $, $doc, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, detail_zoom, district_contains_point, districts, do_map, downtown, find_district_by_point, load_district_data, load_districts, make_region, map, mark_point, marker, region_contains_point, region_zoom, reject, report_district, reset_map;
+  var $, $button, $doc, $map, $query, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, detail_zoom, district_bounds, district_contains_point, districts, do_map, downtown, find_district_by_point, geocoder, geocoder_success, i, load_district_data, load_districts, make_region, map, mark_point, marker, region_zoom, reject, reset_map, _i;
+
+  for (i = _i = 1; _i <= 100; i = ++_i) {
+    [!(i % 3) ? 'fizz' : void 0] + [!(i % 5) ? 'buzz' : void 0] || i;
+  }
+
+  /*
+  color data is present in the JSON feeds but each district is the same, so we assign unique values
+  */
+
 
   colors = {
-    "DISTRICT 1": "#ff0000",
-    "DISTRICT 2": "#00ff00",
-    "DISTRICT 3": "#0000ff",
-    "DISTRICT 4": "#FF7D40"
+    "DISTRICT 1": "#ABD9E9",
+    "DISTRICT 2": "#FDAE61",
+    "DISTRICT 3": "#2C7BB6",
+    "DISTRICT 4": "#D7191C"
   };
+
+  /*
+  jquery and cached selectors
+  */
+
 
   $ = jQuery;
 
   $doc = $(document);
+
+  $query = $('#address');
+
+  $button = $('#map-button');
+
+  $map = $('#map-canvas');
+
+  /*
+  google map options
+  */
+
 
   downtown = new google.maps.LatLng(33.214851, -97.133045);
 
   region_zoom = 11;
 
   detail_zoom = region_zoom + 4;
+
+  district_bounds = new google.maps.LatLngBounds();
+
+  district_bounds.extend(downtown);
+
+  map = null;
+
+  marker = null;
+
+  reset_map = function() {
+    if (marker) {
+      marker.setMap(null);
+    }
+    map.panToBounds(district_bounds);
+    return map.setZoom(region_zoom);
+  };
+
+  /*
+  geocoder for doing address/latlng lookups
+  */
+
+
+  geocoder = new google.maps.Geocoder();
+
+  /*
+  handle data from google geocoder api
+  do some basic checks to ensure data is a street
+  */
+
+
+  geocoder_success = function(results, status) {
+    var address;
+    address = results[0].formatted_address;
+    if (status === !google.maps.GeocoderStatus.OK) {
+      reset_map();
+    }
+    if (status === google.maps.GeocoderStatus.OK) {
+      if (results[0].types.indexOf('street_address') > -1) {
+        address = results[0].formatted_address;
+        return mark_point(results[0].geometry.location, detail_zoom, address);
+      } else {
+        return mark_point(results[0].geometry.location, detail_zoom);
+      }
+    }
+  };
 
   districts = {};
 
@@ -52,10 +117,10 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   reject = function(array, predicate) {
-    var res, value, _i, _len;
+    var res, value, _j, _len;
     res = [];
-    for (_i = 0, _len = array.length; _i < _len; _i++) {
-      value = array[_i];
+    for (_j = 0, _len = array.length; _j < _len; _j++) {
+      value = array[_j];
       if (!predicate(value)) {
         res.push(value);
       }
@@ -71,12 +136,14 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   create_gmap_latlng_from_coordinate_pairs = function(pair) {
-    var parts;
+    var parts, point;
     parts = pair.split(",");
     if (parts.length === !2) {
       console.log('data is malformed', pair);
     }
-    return new google.maps.LatLng(parts[1], parts[0]);
+    point = new google.maps.LatLng(parts[1], parts[0]);
+    district_bounds.extend(point);
+    return point;
   };
 
   /*
@@ -84,11 +151,11 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   create_gmap_path = function(data) {
-    var pair, _i, _len, _ref, _results;
+    var pair, _j, _len, _ref, _results;
     _ref = data.LinearRing.coordinates.split(" ");
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      pair = _ref[_i];
+    for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+      pair = _ref[_j];
       _results.push(create_gmap_latlng_from_coordinate_pairs(pair));
     }
     return _results;
@@ -101,24 +168,24 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   make_region = function(data, district) {
-    var inner, interior, interior_boundaries, paths, polygon, _i, _len;
+    var inner, interior, interior_boundaries, paths, polygon, _j, _len;
     paths = [];
     paths.push(create_gmap_path(data.outerBoundaryIs));
     if (data.innerBoundaryIs) {
       interior_boundaries = (function() {
-        var _i, _len, _ref, _results;
+        var _j, _len, _ref, _results;
         _ref = data.innerBoundaryIs;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          inner = _ref[_i];
+        for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+          inner = _ref[_j];
           _results.push(create_gmap_path(inner));
         }
         return _results;
       })();
     }
     if (interior_boundaries) {
-      for (_i = 0, _len = interior_boundaries.length; _i < _len; _i++) {
-        interior = interior_boundaries[_i];
+      for (_j = 0, _len = interior_boundaries.length; _j < _len; _j++) {
+        interior = interior_boundaries[_j];
         paths.push(interior);
       }
     }
@@ -127,12 +194,14 @@ color data is present in the JSON feeds but each district is the same, so we ass
       strokeColor: colors[district],
       strokeWeight: 1,
       fillColor: colors[district],
-      fillOpacity: 0.2,
+      fillOpacity: 0.4,
       map: map
     });
     google.maps.event.addListener(polygon, 'click', function(event) {
-      mark_point(event.latLng);
-      return report_district(district);
+      data = {
+        latLng: event.latLng
+      };
+      return geocoder.geocode(data, geocoder_success);
     });
     return polygon;
   };
@@ -153,11 +222,11 @@ color data is present in the JSON feeds but each district is the same, so we ass
       district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text'];
       if (data.Placemark.MultiGeometry.Polygon) {
         regions = (function() {
-          var _i, _len, _ref, _results;
+          var _j, _len, _ref, _results;
           _ref = data.Placemark.MultiGeometry.Polygon;
           _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            district_data = _ref[_i];
+          for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+            district_data = _ref[_j];
             _results.push(make_region(district_data, district_name));
           }
           return _results;
@@ -172,30 +241,17 @@ color data is present in the JSON feeds but each district is the same, so we ass
 
 
   load_districts = function() {
-    var district, _i, _len, _ref, _results;
+    var district, _j, _len, _ref, _results;
     _ref = ["d1", "d2", "d3", "d4"];
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      district = _ref[_i];
+    for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+      district = _ref[_j];
       _results.push(load_district_data(district));
     }
     return _results;
   };
 
   $doc.ready(load_districts);
-
-  /*
-  regions have an outer perimeter
-  regions also have exclusion zones
-  */
-
-
-  region_contains_point = function(region, point) {
-    if (region.Contains(point)) {
-      return true;
-    }
-    return false;
-  };
 
   /*
   districts have many regions
@@ -205,12 +261,12 @@ color data is present in the JSON feeds but each district is the same, so we ass
   district_contains_point = function(district, region, point) {
     var foo, results;
     foo = (function() {
-      var _i, _len, _ref, _results;
+      var _j, _len, _ref, _results;
       _ref = districts[district];
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        region = _ref[_i];
-        _results.push(region_contains_point(region, point));
+      for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+        region = _ref[_j];
+        _results.push(region.Contains(point));
       }
       return _results;
     })();
@@ -238,9 +294,10 @@ color data is present in the JSON feeds but each district is the same, so we ass
     results = reject(foo, function(value) {
       return value === false;
     });
-    if (results.length === 1) {
-      return report_district(results[0]);
+    if (results.length === !1) {
+      return false;
     }
+    return results[0];
   };
 
   /*
@@ -249,19 +306,15 @@ color data is present in the JSON feeds but each district is the same, so we ass
   */
 
 
-  reset_map = function() {
-    if (marker) {
-      marker.setMap(null);
-    }
-    map.setCenter(downtown);
-    return map.setZoom(region_zoom);
-  };
-
-  mark_point = function(point, zoom) {
-    var marker_data;
+  mark_point = function(point, zoom, address) {
+    var district, infoWindow, marker_data, tmpl, tmplString;
     if (zoom == null) {
       zoom = detail_zoom;
     }
+    if (address == null) {
+      address = "Location";
+    }
+    district = find_district_by_point(point);
     map.setCenter(point);
     map.setZoom(detail_zoom);
     marker_data = {
@@ -272,19 +325,25 @@ color data is present in the JSON feeds but each district is the same, so we ass
       marker.setMap(null);
     }
     marker = new google.maps.Marker(marker_data);
-    return find_district_by_point(point);
-  };
-
-  report_district = function(district) {
-    return $('#your_district').text("You reside in " + district + "!");
+    tmplString = "<p>{{=it.address}} is in Denton City {{=it.district}}</p>";
+    tmpl = doT.template(tmplString);
+    if (address === "Location") {
+      $query.val("Denton, TX");
+    }
+    if (address !== "Location") {
+      $query.val(address);
+    }
+    infoWindow = new google.maps.InfoWindow({
+      content: tmpl({
+        district: district,
+        address: address
+      })
+    });
+    return infoWindow.open(map, marker);
   };
 
   do_map = function() {
-    var $button, $map, $query, geocoder, lookup_address, map_options;
-    $query = $('#address');
-    $button = $('#map-button');
-    $map = $('#map-canvas');
-    geocoder = new google.maps.Geocoder();
+    var lookup_address, map_options;
     map_options = {
       zoom: region_zoom,
       center: downtown,
@@ -293,22 +352,15 @@ color data is present in the JSON feeds but each district is the same, so we ass
     map = new google.maps.Map(document.getElementById('map-canvas'), map_options);
     google.maps.event.addListener(map, 'click', function() {
       reset_map();
-      return $('#your_district').text("Location indicated doesn't appear to be part of a Denton county district. Please type in your address, or click on the map to find your district.");
+      return $('#your_district').text("Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district.");
     });
     lookup_address = function(event) {
-      var data, geocode_success;
+      var data;
       event.preventDefault();
       data = {
         'address': $query.val() + " Denton TX"
       };
-      geocode_success = function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          return mark_point(results[0].geometry.location);
-        } else {
-          return reset_map();
-        }
-      };
-      return geocoder.geocode(data, geocode_success);
+      return geocoder.geocode(data, geocoder_success);
     };
     return $button.click(lookup_address);
   };
