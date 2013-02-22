@@ -9,16 +9,18 @@ Author:
 color data is present in the JSON feeds but each district is the same, so we assign unique values
 ###
 colors =
-  "DISTRICT 1": "#ff0000"
-  "DISTRICT 2": "#00ff00"
-  "DISTRICT 3": "#0000ff"
-  "DISTRICT 4": "#FF7D40"
+  "DISTRICT 1": "#ABD9E9"
+  "DISTRICT 2": "#FDAE61"
+  "DISTRICT 3": "#2C7BB6"
+  "DISTRICT 4": "#D7191C"
 
 $ = jQuery
 
 $doc = $(document)
 
 downtown = new google.maps.LatLng(33.214851,-97.133045)
+geocoder = new google.maps.Geocoder()
+
 region_zoom = 11
 detail_zoom = region_zoom + 4
 
@@ -85,11 +87,24 @@ make_region = (data, district)->
     strokeColor: colors[district]
     strokeWeight: 1
     fillColor: colors[district]
-    fillOpacity: 0.2
+    fillOpacity: 0.4
     map: map
   google.maps.event.addListener polygon, 'click', (event)->
-    mark_point event.latLng
-    report_district district
+
+    data =
+      latLng: event.latLng
+    geocoder.geocode data, (results, status)->
+      if (status == google.maps.GeocoderStatus.OK)
+        console.log status, results
+        if results[0].types.indexOf('street_address') > -1
+          address = results[0].formatted_address
+          $query.val( address )
+          mark_point event.latLng, detail_zoom, address
+        else
+          mark_point event.latLng, detail_zoom
+
+
+    # report_district district
 
   polygon
 
@@ -139,8 +154,9 @@ find_district_by_point = (point)->
   final_district = []
   foo = ( district_contains_point district, region, point for district, region of districts )
   results = reject foo, (value)-> value == false
-  report_district results[0] if results.length is 1
-
+  return false if results.length is not 1
+  # report_district results[0]
+  results[0]
 
 ###
 given a location on the map, via address search or click
@@ -153,7 +169,9 @@ reset_map = ()->
   map.setZoom region_zoom
 
 
-mark_point = (point, zoom = detail_zoom )->
+mark_point = (point, zoom = detail_zoom, address = "Location" )->
+  district = find_district_by_point point
+
   map.setCenter point
   map.setZoom detail_zoom
 
@@ -163,20 +181,32 @@ mark_point = (point, zoom = detail_zoom )->
   marker.setMap(null) if marker
   marker = new google.maps.Marker marker_data
 
-  find_district_by_point point
+
+  tmplString = "<p>{{=it.address}} is in Denton City {{=it.district}}</p>"
+  tmpl = doT.template(tmplString)
+
+
+  infoWindow = new google.maps.InfoWindow
+    content: tmpl
+      district: district
+      address: address
 
 
 
-report_district = (district)->
-  $('#your_district').text( "You reside in " + district + "!")
+  infoWindow.open(map, marker)
 
+
+# report_district = (district)->
+#   $('#your_district').text( "You reside in " + district + "!")
+
+
+$query = $('#address')
 
 do_map = ()->
-  $query = $('#address')
   $button = $('#map-button')
   $map = $('#map-canvas')
 
-  geocoder = new google.maps.Geocoder()
+  # geocoder = new google.maps.Geocoder()
   map_options =
     zoom: region_zoom
     center: downtown
@@ -186,7 +216,8 @@ do_map = ()->
 
   google.maps.event.addListener map, 'click', ()->
     reset_map()
-    $('#your_district').text( "Location indicated doesn't appear to be part of a Denton county district. Please type in your address, or click on the map to find your district." )
+
+    $('#your_district').text( "Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district." )
 
 
   lookup_address = (event)->
@@ -196,8 +227,11 @@ do_map = ()->
       'address':  $query.val() + " Denton TX"
 
     geocode_success = (results, status)->
+      address = results[0].formatted_address
+      $query.val( address )
+
       if status is google.maps.GeocoderStatus.OK
-        mark_point results[0].geometry.location
+        mark_point results[0].geometry.location, detail_zoom, address
       else
         reset_map()
 
