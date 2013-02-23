@@ -43,7 +43,7 @@ get_header(); // Loads the header.php template. ?>
 
 											<input type="text" id="address" placeholder="What is your address?">
 
-											<button type="submit" id="map-button" class="btn">Submit</button>
+											<button type="submit" id="map-button" class="btn btn-primary">Submit</button>
 
 										</div><!-- .container -->
 
