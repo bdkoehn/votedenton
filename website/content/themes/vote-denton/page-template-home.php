@@ -41,7 +41,7 @@ get_header(); // Loads the header.php template. ?>
 
 											<h1>What district am I in?</h1>
 
-											<input type="text" class="input-xlarge" id="address" placeholder="What is your address?">
+											<input type="text" id="address" placeholder="What is your address?">
 
 											<button type="submit" id="map-button" class="btn">Submit</button>
 
@@ -70,6 +70,8 @@ get_header(); // Loads the header.php template. ?>
 						</div><!-- .container -->
 
 						</section><!-- #what-district -->
+						
+						<!-- WE'LL RESURRECT THIS SOON 
 
 						<section id="am-i-registered">
 
@@ -88,11 +90,11 @@ get_header(); // Loads the header.php template. ?>
 
 											<button type="submit" id="name-button" class="btn">Submit</button>
 
-										</div><!-- .container -->
+										</div>
 
 									</fieldset>
 
-								</form><!-- #find-yourself -->
+								</form>
 
 							</header>
 

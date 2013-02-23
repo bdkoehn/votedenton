@@ -85,6 +85,7 @@ function vote_denton_theme_setup() {
 function vote_denton_enqueue_scripts() {
 
 	// Queue CSS
+	wp_enqueue_style( 'open-sans',	'//fonts.googleapis.com/css?family=Open+Sans:300italic,400,300,600,700' );
 	wp_enqueue_style( 'style',		trailingslashit( get_stylesheet_directory_uri() ) . 'style.less' );
 
 	// Queue JS
@@ -94,7 +95,7 @@ function vote_denton_enqueue_scripts() {
 	wp_enqueue_script( 'google-maps','https://maps.googleapis.com/maps/api/js?key=AIzaSyAkESPULucbHMXTKCKtvRjJby2QDkYZtBo&sensor=false', false, false, false );
 	wp_enqueue_script( 'bootstrap',	trailingslashit( get_stylesheet_directory_uri() ) . 'js/vendor/bootstrap.min.js', array( 'jquery' ), false, true );
 	wp_enqueue_script( 'plugins',	trailingslashit( get_stylesheet_directory_uri() ) . 'js/plugins.js', false, false, true );
-	wp_enqueue_script( 'dot',	trailingslashit( get_stylesheet_directory_uri() ) . 'js/vendor/dot.js', false, false, true );
+	wp_enqueue_script( 'dot',		trailingslashit( get_stylesheet_directory_uri() ) . 'js/vendor/dot.js', false, false, true );
 	wp_enqueue_script( 'app',		trailingslashit( get_stylesheet_directory_uri() ) . 'js/app.js', array( 'jquery' ), false, true );
 
 }
