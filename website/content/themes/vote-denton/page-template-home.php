@@ -50,35 +50,41 @@ get_header(); // Loads the header.php template. ?>
 						</form><!-- #map-yourself -->
 						
 						<div class="accordion" id="accordion">
-
+							
+							<?php
+							$district_map_args = array(
+							  'name' => 'district-map',
+							  'post_type' => 'page',
+							  'post_status' => 'publish',
+							  'numberposts' => 1
+							);
+							
+							$district_map = get_posts( $district_map_args );
+							if( $district_map ) {
+							?>
+							
 							<section id="district-map" class="accordion-group">
 	
 								<header class="accordion-heading">
 									
 									<div class="container">
 									
-										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">District Map<a></a></h1>
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $district_map[0]->ID; ?>"><?php echo $district_map[0]->post_title; ?><a></a></h1>
 	      							
 	      							</div><!-- .container -->
 	      								
 								</header>
 	
-								<div id="collapseOne" class="accordion-body collapse in container">
+								<div id="collapse-<?php echo $district_map[0]->ID; ?>" class="accordion-body collapse in container">
 
-
-																		
-									<div class="row-fluid">
-										<div class="span12">
-											<div class="flex-map">
-												<div id="map-canvas"></div>
-											</div>
-										</div>
-									</div>
+									<?php echo $district_map[0]->post_content; ?>
 		
 								</div><!-- .container -->
 	
 							</section><!-- #district-map -->
 
+							<?php } ?>
+														
 							<section id="candidates" class="accordion-group">
 	
 								<header class="accordion-heading">
@@ -121,112 +127,86 @@ get_header(); // Loads the header.php template. ?>
 											
 							</section><!-- #candidates -->
 
+							<?php
+							$calendar_args = array(
+							  'name' => 'calendar',
+							  'post_type' => 'page',
+							  'post_status' => 'publish',
+							  'numberposts' => 1
+							);
+							
+							$calendar = get_posts( $calendar_args );
+							if( $calendar ) {
+							?>
+							
 							<section id="calendar" class="accordion-group">
 	
 								<header class="accordion-heading">
 									
 									<div class="container">
 									
-										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Calendar<a></a></h1>
-	      								
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $calendar[0]->ID; ?>"><?php echo $calendar[0]->post_title; ?><a></a></h1>
+	      							
 	      							</div><!-- .container -->
-	      		
+	      								
 								</header>
+	
+								<div id="collapse-<?php echo $calendar[0]->ID; ?>" class="accordion-body collapse in container">
 
-								<div id="collapseThree" class="accordion-body collapse container">
-									
-									Calendar
+									<?php echo $calendar[0]->post_content; ?>
 		
 								</div><!-- .container -->
-											
+	
 							</section><!-- #calendar -->
 
+							<?php } ?>
+
+							<?php
+							$why_vote_args = array(
+							  'name' => 'why-vote',
+							  'post_type' => 'page',
+							  'post_status' => 'publish',
+							  'numberposts' => 1
+							);
+							
+							$why_vote = get_posts( $why_vote_args );
+							if( $why_vote ) {
+							?>
+							
 							<section id="why-vote" class="accordion-group">
 	
 								<header class="accordion-heading">
 									
 									<div class="container">
 									
-										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Why Vote?<a></a></h1>
-	      								
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $why_vote[0]->ID; ?>"><?php echo $why_vote[0]->post_title; ?><a></a></h1>
+	      							
 	      							</div><!-- .container -->
-	      		
+	      								
 								</header>
+	
+								<div id="collapse-<?php echo $why_vote[0]->ID; ?>" class="accordion-body collapse in container">
 
-								<div id="collapseFour" class="accordion-body collapse container">
-									
-									Why Vote
+									<?php echo $why_vote[0]->post_content; ?>
 		
 								</div><!-- .container -->
-											
-							</section><!-- #calendar -->
+	
+							</section><!-- #why-vote -->
+
+							<?php } ?>
 																								
 						</div><!-- #accordian -->
 
-							<section id="candidates">
-	
-								<header>
-									
-									<div class="container">
-									
-										<h1>Double Check</h1>
-	      								
-	      							</div><!-- .container -->
-	      		
-								</header>
+						<div class="container">
 
-								<div class="container">
-									
-									<div class="row-fluid">
-										
-										<div class="span12">
+							<div class="entry-content">
+								<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
+								<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
+							</div><!-- .entry-content -->
 
-											<p><a href="https://elections.dentoncounty.com/goVR.asp?Dept=82&Link=292" class="btn">Click here to double check your voter registration status</a> and make sure you are registered to vote in this district. <strong>Deadline to register is April 11</strong>.</p>
-										
-										</div>
-									
-									</div>
-		
-								</div><!-- .container -->
-											
-							</section><!-- #what-district -->
-							
+							<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
 						
-						<!-- WE'LL RESURRECT THIS SOON 
-
-						<section id="am-i-registered">
-
-							<header class="question">
-
-								<form id="find-yourself" class="form-inline">
-
-									<fieldset>
-
-										<div class="container">
-
-											<h1>Am I registered to vote?</h1>
-
-											<input type="text" class="input-medium" id="fname" placeholder="First name...">
-											<input type="text" class="input-medium" id="lname" placeholder="Last name...">
-
-											<button type="submit" id="name-button" class="btn">Submit</button>
-
-										</div>
-
-									</fieldset>
-
-								</form>
-
-							</header>
-
-						</section><!-- #am-i-registered -->
-
-						<div class="entry-content">
-							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
-							<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
-						</div><!-- .entry-content -->
-
-						<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
+						</div><!-- .container -->
 
 					</div><!-- .hentry -->
 
