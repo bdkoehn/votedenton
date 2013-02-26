@@ -180,6 +180,12 @@ function vote_denton_disable_sidebars( $sidebars_widgets ) {
 			$sidebars_widgets['primary'] = false;
 			$sidebars_widgets['secondary'] = false;
 		}
+
+		if ( 'candidate' == get_post_type() || is_archive( 'districts' ) ) {
+			$sidebars_widgets['primary'] = false;
+			$sidebars_widgets['secondary'] = false;
+		}
+		
 	}
 
 	return $sidebars_widgets;
