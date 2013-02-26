@@ -151,7 +151,7 @@ get_header(); // Loads the header.php template. ?>
 	      								
 								</header>
 	
-								<div id="collapse-<?php echo $calendar[0]->ID; ?>" class="accordion-body collapse in container">
+								<div id="collapse-<?php echo $calendar[0]->ID; ?>" class="accordion-body collapse container">
 
 									<?php echo $calendar[0]->post_content; ?>
 		
@@ -185,7 +185,7 @@ get_header(); // Loads the header.php template. ?>
 	      								
 								</header>
 	
-								<div id="collapse-<?php echo $why_vote[0]->ID; ?>" class="accordion-body collapse in container">
+								<div id="collapse-<?php echo $why_vote[0]->ID; ?>" class="accordion-body collapse container">
 
 									<?php echo $why_vote[0]->post_content; ?>
 		
