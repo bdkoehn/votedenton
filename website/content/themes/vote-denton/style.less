@@ -37,7 +37,7 @@ body {
 }
 
 body.page-template-home {
-  background: @blueDark url('images/courthouse-bg.jpg') center 138px no-repeat;
+  background: @blueDark;
 }
 
 ::-moz-selection {
@@ -167,7 +167,7 @@ h2 {
   
   .candidate {
     background: @grayDark;
-    
+     
     .thumbnail.pull-left {
       border: none;
       margin: 0 20px 10px 0;
@@ -177,6 +177,10 @@ h2 {
       color: @white;
     }
   }
+}
+
+#district-map{
+	/* background: @graySlighter; */
 }
 
 /*
@@ -204,6 +208,7 @@ h2 {
   height: 0;
   margin-bottom: 16px;
   overflow: hidden;
+  border: 13px solid #fff;
 
   &.widescreen { padding-bottom: 57.25%; }
   &.vimeo { padding-top: 0; }
