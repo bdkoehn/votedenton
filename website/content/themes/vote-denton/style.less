@@ -31,34 +31,55 @@
  * Base
  ***********************************************************/
 body {
-  background: @blue;
+  background: @blue url('images/courthouse-bg.jpg') center 50px no-repeat;
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
 }
 
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
+input {
+  text-transform: uppercase;
 }
 
 .container {
   margin: 0 auto;
-  width: 480px;
+  padding: 0 20px;
+  width: 465px;
 }
 
 /*
  * Header
  ***********************************************************/
-#header {}
+#header {
+  position: relative;
+
+  #site-title {
+    background: url('images/vote-denton.png');
+    display: inline-block;
+    height: 261px;
+    margin: 0;
+    text-indent: -9999px;
+    width: 475px;
+  }
+  
+  #site-description {
+    display: none;
+  }
+  
+}
 
 /*
  * Menus
@@ -74,13 +95,9 @@ h1, h2, h3, h4, h5, h6 {
  ***********************************************************/
 #content {}
 
-#what-district {
-  background: url('images/courthouse.jpg') top center no-repeat;
-}
-
 .question {
   margin: 0;
-  padding: 5px 20px;
+  padding: 5px 0;
   .clearfix();
   
   h1 {
@@ -98,6 +115,10 @@ h1, h2, h3, h4, h5, h6 {
   input[type="text"] {
     width: 80%;
   }
+}
+
+#map-yourself {
+  margin: 0;
 }
 
 #map-canvas {
@@ -121,10 +142,6 @@ h1, h2, h3, h4, h5, h6 {
  * Footer
  ***********************************************************/
 #footer {
-  border: 1px solid #556C7B;
-  .box-shadow(0 1px 4px rgba(0,0,0,.065));
-  #gradient > .vertical(@white, @grayLighter);
-  padding: 5px 20px;
   .clearfix();
 }
 

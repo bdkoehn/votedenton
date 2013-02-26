@@ -32,14 +32,10 @@
 		<div class="container">
 						
 			<?php do_atomic( 'open_footer' ); // vote_denton_open_footer ?>
-	
-			<div class="span12">
-	
-				<?php echo apply_atomic_shortcode( 'footer_content', hybrid_get_setting( 'footer_insert' ) ); ?>
-	
-				<?php do_atomic( 'footer' ); // vote_denton_footer ?>
-	
-			</div><!-- .span12 -->
+		
+			<?php echo apply_atomic_shortcode( 'footer_content', hybrid_get_setting( 'footer_insert' ) ); ?>
+
+			<?php do_atomic( 'footer' ); // vote_denton_footer ?>
 	
 			<?php do_atomic( 'close_footer' ); // vote_denton_close_footer ?>
 		

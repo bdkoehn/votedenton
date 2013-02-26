@@ -55,19 +55,15 @@ get_header(); // Loads the header.php template. ?>
 
 							<div class="container">
 								
-							<div class="row-fluid">
-								<div class="span12"><h4 id="your_district"></h4></div>
-							</div>	
-								
-							<div class="row-fluid">
-								<div class="span12">
-									<div class="flex-map">
-										<div id="map-canvas"></div>
+								<div class="row-fluid">
+									<div class="span12">
+										<div class="flex-map">
+											<div id="map-canvas"></div>
+										</div>
 									</div>
 								</div>
-							</div>
-
-						</div><!-- .container -->
+	
+							</div><!-- .container -->
 
 						</section><!-- #what-district -->
 						

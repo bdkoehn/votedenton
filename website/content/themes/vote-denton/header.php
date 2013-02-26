@@ -39,7 +39,7 @@
 
       <?php do_atomic( 'open_header' ); // vote_denton_open_header ?>
 
-      <div id="branding" class="span6">
+      <div id="branding">
         <?php hybrid_site_title(); ?>
         <?php hybrid_site_description(); ?>
       </div><!-- #branding -->
