@@ -31,9 +31,13 @@
  * Base
  ***********************************************************/
 body {
-  background: @blueDark url('images/courthouse-bg.jpg') center 138px no-repeat;
+  background: @blueDark;
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
+}
+
+body.page-template-home {
+  background: @blueDark url('images/courthouse-bg.jpg') center 138px no-repeat;
 }
 
 ::-moz-selection {
@@ -67,12 +71,15 @@ input {
   position: relative;
 
   #site-title {
-    background: url('images/vote-denton.png');
-    display: inline-block;
-    height: 261px;
     margin: 0;
-    text-indent: -9999px;
-    width: 475px;
+    
+    a {
+      background: url('images/vote-denton.png');
+      display: inline-block;
+      height: 261px;
+      text-indent: -9999px;
+      width: 475px;
+    }
   }
   
   #site-description {
@@ -154,6 +161,22 @@ h2 {
 	top: 0px;
 	left: 0px;
 	right: 0px;
+}
+
+.thumbnails {
+  
+  .candidate {
+    background: @grayDark;
+    
+    .thumbnail.pull-left {
+      border: none;
+      margin: 0 20px 10px 0;
+    }
+    
+    .caption {
+      color: @white;
+    }
+  }
 }
 
 /*

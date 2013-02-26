@@ -77,7 +77,7 @@ get_header(); // Loads the header.php template. ?>
 		
 								</div><!-- .container -->
 	
-							</section><!-- #what-district -->
+							</section><!-- #district-map -->
 
 							<section id="candidates" class="accordion-group">
 	
@@ -93,18 +93,74 @@ get_header(); // Loads the header.php template. ?>
 
 								<div id="collapseTwo" class="accordion-body collapse container">
 									
-									<div class="row-fluid">
-										<div class="span12">
-											<div class="flex-map">
-												<div id="map-canvas"></div>
+									<?php $candidates = new WP_Query( array( 'post_per_page' => -1, 'post_type' => 'candidate', 'orderby' => 'rand' ) );
+									if( $candidates ): ?>
+									<ul class="thumbnails">
+										<?php while ($candidates->have_posts()) : $candidates->the_post();
+										$do_not_duplicate = $post->ID;?>
+										<li class="candidate">
+											<div class="thumbnail">
+												<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail', 'image_class' => 'pull-left' ) ); ?>
+												<div class="caption">
+													<h3><?php the_title_attribute(); ?></h3>
+													
+													<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-terms taxonomy="districts"]', 'vote-denton' ) . '</div>' ); ?>
+
+													<div class="entry-summary">
+														<?php the_excerpt(); ?>
+														<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
+													</div><!-- .entry-summary -->
+												</div>
 											</div>
-										</div>
-									</div>
+										</li>
+										<?php endwhile; ?>
+									</ul>
+									<?php endif; wp_reset_query(); ?>
 		
 								</div><!-- .container -->
 											
-							</section><!-- #what-district -->
-										
+							</section><!-- #candidates -->
+
+							<section id="calendar" class="accordion-group">
+	
+								<header class="accordion-heading">
+									
+									<div class="container">
+									
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Calendar<a></a></h1>
+	      								
+	      							</div><!-- .container -->
+	      		
+								</header>
+
+								<div id="collapseThree" class="accordion-body collapse container">
+									
+									Calendar
+		
+								</div><!-- .container -->
+											
+							</section><!-- #calendar -->
+
+							<section id="why-vote" class="accordion-group">
+	
+								<header class="accordion-heading">
+									
+									<div class="container">
+									
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Why Vote?<a></a></h1>
+	      								
+	      							</div><!-- .container -->
+	      		
+								</header>
+
+								<div id="collapseFour" class="accordion-body collapse container">
+									
+									Why Vote
+		
+								</div><!-- .container -->
+											
+							</section><!-- #calendar -->
+																								
 						</div><!-- #accordian -->
 
 							<section id="candidates">
@@ -125,7 +181,7 @@ get_header(); // Loads the header.php template. ?>
 										
 										<div class="span12">
 
-											<p><a href="https://elections.dentoncounty.com/goVR.asp?Dept=82&Link=292">Click here to double check your voter registration status</a>ß and make sure you are registered to vote in this district. Deadline to register is April 11."</p>
+											<p><a href="https://elections.dentoncounty.com/goVR.asp?Dept=82&Link=292" class="btn">Click here to double check your voter registration status</a> and make sure you are registered to vote in this district. <strong>Deadline to register is April 11</strong>.</p>
 										
 										</div>
 									
