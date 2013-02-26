@@ -29,43 +29,112 @@ get_header(); // Loads the header.php template. ?>
 
 						<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
 
-						<section id="what-district">
+						<form id="map-yourself" class="form-inline">
 
-							<header class="question">
+							<fieldset>
 
-								<form id="map-yourself" class="form-inline">
+								<div class="container">
 
-									<fieldset>
+									<h2>What district am I in?</h2>
 
-										<div class="container">
+									<input type="text" id="address" placeholder="What is your address?">
 
-											<h1>What district am I in?</h1>
+									<button type="submit" id="map-button" class="btn btn-primary">Submit</button>
+									
+									<div id="your_district"></div>
 
-											<input type="text" id="address" placeholder="What is your address?">
+								</div><!-- .container -->
 
-											<button type="submit" id="map-button" class="btn btn-primary">Submit</button>
+							</fieldset>
 
-										</div><!-- .container -->
+						</form><!-- #map-yourself -->
+						
+						<div class="accordion" id="accordion">
 
-									</fieldset>
+							<section id="district-map" class="accordion-group">
+	
+								<header class="accordion-heading">
+									
+									<div class="container">
+									
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">District Map<a></a></h1>
+	      							
+	      							</div><!-- .container -->
+	      								
+								</header>
+	
+								<div id="collapseOne" class="accordion-body collapse in container">
 
-								</form><!-- #map-yourself -->
 
-							</header>
-
-							<div class="container">
-								
-								<div class="row-fluid">
-									<div class="span12">
-										<div class="flex-map">
-											<div id="map-canvas"></div>
+																		
+									<div class="row-fluid">
+										<div class="span12">
+											<div class="flex-map">
+												<div id="map-canvas"></div>
+											</div>
 										</div>
 									</div>
-								</div>
+		
+								</div><!-- .container -->
 	
-							</div><!-- .container -->
+							</section><!-- #what-district -->
 
-						</section><!-- #what-district -->
+							<section id="candidates" class="accordion-group">
+	
+								<header class="accordion-heading">
+									
+									<div class="container">
+									
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Candidates<a></a></h1>
+	      								
+	      							</div><!-- .container -->
+	      		
+								</header>
+
+								<div id="collapseTwo" class="accordion-body collapse container">
+									
+									<div class="row-fluid">
+										<div class="span12">
+											<div class="flex-map">
+												<div id="map-canvas"></div>
+											</div>
+										</div>
+									</div>
+		
+								</div><!-- .container -->
+											
+							</section><!-- #what-district -->
+										
+						</div><!-- #accordian -->
+
+							<section id="candidates">
+	
+								<header>
+									
+									<div class="container">
+									
+										<h1>Double Check</h1>
+	      								
+	      							</div><!-- .container -->
+	      		
+								</header>
+
+								<div class="container">
+									
+									<div class="row-fluid">
+										
+										<div class="span12">
+
+											<p><a href="https://elections.dentoncounty.com/goVR.asp?Dept=82&Link=292">Click here to double check your voter registration status</a>ß and make sure you are registered to vote in this district. Deadline to register is April 11."</p>
+										
+										</div>
+									
+									</div>
+		
+								</div><!-- .container -->
+											
+							</section><!-- #what-district -->
+							
 						
 						<!-- WE'LL RESURRECT THIS SOON 
 

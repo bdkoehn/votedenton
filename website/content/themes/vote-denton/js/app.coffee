@@ -221,7 +221,7 @@ do_map = ()->
   google.maps.event.addListener map, 'click', ()->
     reset_map()
 
-    $('#your_district').text( "Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district." )
+    $('#your_district').show().text( "Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district." )
 
 
   lookup_address = (event)->
