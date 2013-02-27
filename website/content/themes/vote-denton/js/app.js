@@ -36,6 +36,17 @@ $button = $('#map-button');
 $map = $('#map-canvas');
 
 /*
+reveal map when focused on the address form
+*/
+
+
+$(document).ready(function() {
+  return $("#address").focus(function() {
+    return $("#collapse-district-map").collapse("show");
+  });
+});
+
+/*
 google map options
 */
 

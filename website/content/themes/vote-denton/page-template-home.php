@@ -39,7 +39,7 @@ get_header(); // Loads the header.php template. ?>
 
 									<input type="text" id="address" placeholder="What is your address?">
 
-									<button type="submit" id="map-button" class="btn btn-primary">Submit</button>
+									<input type="submit" id="map-button" class="btn btn-primary" vale="Submit">
 									
 									<div id="your_district"></div>
 
@@ -69,13 +69,13 @@ get_header(); // Loads the header.php template. ?>
 									
 									<div class="container">
 									
-										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $district_map[0]->ID; ?>"><?php echo $district_map[0]->post_title; ?><a></a></h1>
+										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-district-map"><?php echo $district_map[0]->post_title; ?><a></a></h1>
 	      							
 	      							</div><!-- .container -->
 	      								
 								</header>
 	
-								<div id="collapse-<?php echo $district_map[0]->ID; ?>" class="accordion-body collapse in container">
+								<div id="collapse-district-map" class="accordion-body collapse container">
 
 									<?php echo $district_map[0]->post_content; ?>
 		
