@@ -75,8 +75,9 @@ Author:
     if (marker) {
       marker.setMap(null);
     }
+    map.setZoom(region_zoom);
     map.panToBounds(district_bounds);
-    return map.setZoom(region_zoom);
+    return console.log(district_bounds);
   };
 
   /*
@@ -336,7 +337,8 @@ Author:
         address: address
       })
     });
-    return infoWindow.open(map, marker);
+    infoWindow.open(map, marker);
+    return google.maps.event.addListener(infoWindow, 'closeclick', reset_map);
   };
 
   do_map = function() {

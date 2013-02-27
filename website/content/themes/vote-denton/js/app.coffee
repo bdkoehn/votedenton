@@ -46,9 +46,9 @@ marker = null
 
 reset_map = ()->
   marker.setMap(null) if marker
-  map.panToBounds district_bounds
   map.setZoom region_zoom
-
+  map.panToBounds district_bounds
+  console.log district_bounds
 
 
 ###
@@ -199,8 +199,7 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
       address: address
 
   infoWindow.open(map, marker)
-
-
+  google.maps.event.addListener infoWindow,'closeclick', reset_map
 
 
 do_map = ()->
