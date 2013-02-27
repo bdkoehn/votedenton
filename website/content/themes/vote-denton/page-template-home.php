@@ -106,16 +106,35 @@ get_header(); // Loads the header.php template. ?>
 										$do_not_duplicate = $post->ID;?>
 										<li class="candidate">
 											<div class="thumbnail">
-												<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail', 'image_class' => 'pull-left' ) ); ?>
 												<div class="caption">
-													<h3><?php the_title_attribute(); ?></h3>
+												
+													<?php
+													$terms = get_the_terms( $post->ID, 'districts' );
+																			
+													if ( $terms && ! is_wp_error( $terms ) ) : 
 													
-													<?php echo apply_atomic_shortcode( 'entry_meta', '<div class="entry-meta">' . __( '[entry-terms taxonomy="districts"]', 'vote-denton' ) . '</div>' ); ?>
+														$district_links = array();
+													
+														foreach ( $terms as $term ) {
+															$district_links[] = $term->name;
+														}
+																			
+														$districts = join( ", ", $district_links );
+													?>
+													<span class="label label-info pull-right"><?php echo $districts; ?></span>
+													
+													<?php endif; ?>
+													
+													<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
+													
+													<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail', 'image_class' => 'pull-left' ) ); ?>
 
 													<div class="entry-summary">
 														<?php the_excerpt(); ?>
 														<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
 													</div><!-- .entry-summary -->
+													
+													<p><a href="<?php the_permalink(); ?>" class="btn btn-primary pull-right">Learn more</a></p>
 												</div>
 											</div>
 										</li>

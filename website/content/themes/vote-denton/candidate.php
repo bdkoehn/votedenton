@@ -13,7 +13,7 @@ get_header(); // Loads the header.php template. ?>
 
 	<?php do_atomic( 'before_content' ); // vote_denton_before_content ?>
 
-	<div id="content" class="<?php echo vote_denton_get_layout( 'content' ); ?>">
+	<div id="content">
 
 		<?php do_atomic( 'open_content' ); // vote_denton_open_content ?>
 
@@ -32,8 +32,17 @@ get_header(); // Loads the header.php template. ?>
 							<?php do_atomic( 'open_entry' ); // vote_denton_open_entry ?>
 	
 							<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
-	
-							<?php echo apply_atomic_shortcode( 'byline', '<div class="byline">' . __( 'By [entry-author] on [entry-published]', 'enterprise' ) . '</div>' ); ?>
+							
+							<ul class="nav nav-tabs nav-stacked">
+							<?php
+							if( get_field( 'website' ) ) { echo '<li><a href="' . get_field('website') . '">Website</a></li>'; }
+							if( get_field( 'facebook' ) ) { echo '<li><a href="' . get_field('facebook') . '">Facebook</a></li>'; }
+							if( get_field( 'twitter_username' ) ) { echo '<li><a href="' . get_field('twitter_username') . '">Twitter</a></li>'; }
+							if( get_field( 'city_of_denton_page' ) ) { echo '<li><a href="' . get_field('city_of_denton_page') . '">City of Denton Website</a></li>'; }
+							?>
+							</ul>
+
+							<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail', 'image_class' => 'pull-right' ) ); ?>
 	
 							<div class="entry-content">
 								<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'enterprise' ) ); ?>
