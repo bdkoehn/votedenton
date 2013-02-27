@@ -321,7 +321,7 @@ mark_point = function(point, zoom, address) {
     marker.setMap(null);
   }
   marker = new google.maps.Marker(marker_data);
-  tmplString = "<p>{{=it.address}} is in Denton City {{=it.district}}</p>";
+  tmplString = "<p class='map-popover'><span class='address'>{{=it.address}}</span> is in Denton City <span class='district'>{{=it.district}}</span></p>";
   tmpl = doT.template(tmplString);
   if (address === "Location") {
     $query.val("Denton, TX");

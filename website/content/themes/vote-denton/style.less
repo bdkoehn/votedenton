@@ -154,6 +154,7 @@ h2 {
 }
 
 #map-canvas {
+  border: 13px solid @white;
   color: @black;
 	position: absolute;
 	width: auto;
@@ -162,6 +163,16 @@ h2 {
 	top: 0px;
 	left: 0px;
 	right: 0px;
+	
+	.map-popover {
+	  font-size: @fontSizeSmall;
+	  max-width: 200px;
+	  
+	  .district {
+	    font-weight: bold;
+	  }
+	}
+	
 }
 
 .thumbnails {
@@ -209,7 +220,6 @@ h2 {
   height: 0;
   margin-bottom: 16px;
   overflow: hidden;
-  border: 13px solid #fff;
 
   &.widescreen { padding-bottom: 57.25%; }
   &.vimeo { padding-top: 0; }
@@ -241,6 +251,10 @@ h2 {
 @media (max-width: 767px) {
   body {
     padding: 0;
+  }
+  #map-canvas {
+    margin: 0 auto;
+    max-width: 90%;
   }
 }
 
