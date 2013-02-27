@@ -38,12 +38,12 @@ county_bounds = new google.maps.LatLngBounds()
 county_bounds.extend new google.maps.LatLng( 32.990236,-97.395172 )
 county_bounds.extend new google.maps.LatLng( 33.395691,-96.855211 )
 
-downtown = new google.maps.LatLng(33.214851,-97.133045)
+the_square = new google.maps.LatLng(33.214851,-97.133045)
 district_bounds = new google.maps.LatLngBounds()
-district_bounds.extend downtown
+district_bounds.extend the_square
 
 # region_zoom = 11
-detail_zoom = 14
+# detail_zoom = 14
 districts = {}
 map = null
 marker = null
@@ -210,7 +210,7 @@ do_map = ()->
 
   map_options =
     zoom: 11
-    center: downtown
+    center: the_square
     mapTypeId: google.maps.MapTypeId.ROADMAP
     zoomControl: false
     scaleControl: false
@@ -225,9 +225,11 @@ do_map = ()->
 
     $('#your_district').show().text( "Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district." )
 
+  # http://stackoverflow.com/questions/3125065/how-do-i-limit-panning-in-google-maps-api-v3/7731442#7731442
   google.maps.event.addListener map, 'center_changed', ()->
     center = map.getCenter()
     map_center = center if county_bounds.contains(center)
+    # map.setZoom( map.getZoom() + 1 ) unless county_bounds.contains(center)
     map.panTo map_center
 
   lookup_address = (event)->
