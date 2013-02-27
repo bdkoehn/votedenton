@@ -198,8 +198,6 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
       district: district
       address: address
 
-
-
   infoWindow.open(map, marker)
 
 
@@ -211,6 +209,11 @@ do_map = ()->
     zoom: region_zoom
     center: downtown
     mapTypeId: google.maps.MapTypeId.ROADMAP
+    zoomControl: false
+    scaleControl: false
+    scrollwheel: false
+    disableDoubleClickZoom: true
+    streetViewControl: false
 
   map = new google.maps.Map document.getElementById('map-canvas'), map_options
 

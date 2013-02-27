@@ -344,7 +344,12 @@ Author:
     map_options = {
       zoom: region_zoom,
       center: downtown,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      zoomControl: false,
+      scaleControl: false,
+      scrollwheel: false,
+      disableDoubleClickZoom: true,
+      streetViewControl: false
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), map_options);
     google.maps.event.addListener(map, 'click', function() {
