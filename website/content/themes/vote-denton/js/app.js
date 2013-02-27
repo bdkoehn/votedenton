@@ -5,17 +5,13 @@ Author:
 */
 
 
+/*
+color data is present in the JSON feeds but each district is the same, so we assign unique values
+*/
+
+
 (function() {
-  var $, $button, $doc, $map, $query, colors, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, detail_zoom, district_bounds, district_contains_point, districts, do_map, downtown, find_district_by_point, geocoder, geocoder_success, i, load_district_data, load_districts, make_region, map, mark_point, marker, region_zoom, reject, reset_map, _i;
-
-  for (i = _i = 1; _i <= 100; i = ++_i) {
-    [!(i % 3) ? 'fizz' : void 0] + [!(i % 5) ? 'buzz' : void 0] || i;
-  }
-
-  /*
-  color data is present in the JSON feeds but each district is the same, so we assign unique values
-  */
-
+  var $, $button, $doc, $map, $query, colors, county_bounds, create_gmap_latlng_from_coordinate_pairs, create_gmap_path, detail_zoom, district_bounds, district_contains_point, districts, do_map, downtown, find_district_by_point, geocoder, geocoder_success, load_district_data, load_districts, make_region, map, map_center, mark_point, marker, reject, reset_map;
 
   colors = {
     "DISTRICT 1": "#ABD9E9",
@@ -55,11 +51,15 @@ Author:
   */
 
 
+  county_bounds = new google.maps.LatLngBounds();
+
+  county_bounds.extend(new google.maps.LatLng(32.990236, -97.395172));
+
+  county_bounds.extend(new google.maps.LatLng(33.395691, -96.855211));
+
   downtown = new google.maps.LatLng(33.214851, -97.133045);
 
-  region_zoom = 11;
-
-  detail_zoom = region_zoom + 4;
+  detail_zoom = 14;
 
   districts = {};
 
@@ -71,13 +71,13 @@ Author:
 
   marker = null;
 
+  map_center = null;
+
   reset_map = function() {
     if (marker) {
       marker.setMap(null);
     }
-    map.setZoom(region_zoom);
-    map.panToBounds(district_bounds);
-    return console.log(district_bounds);
+    return map.fitBounds(district_bounds);
   };
 
   /*
@@ -102,9 +102,9 @@ Author:
     if (status === google.maps.GeocoderStatus.OK) {
       if (results[0].types.indexOf('street_address') > -1) {
         address = results[0].formatted_address;
-        return mark_point(results[0].geometry.location, detail_zoom, address);
+        return mark_point(results[0].geometry.location, address);
       } else {
-        return mark_point(results[0].geometry.location, detail_zoom);
+        return mark_point(results[0].geometry.location);
       }
     }
   };
@@ -115,10 +115,10 @@ Author:
 
 
   reject = function(array, predicate) {
-    var res, value, _j, _len;
+    var res, value, _i, _len;
     res = [];
-    for (_j = 0, _len = array.length; _j < _len; _j++) {
-      value = array[_j];
+    for (_i = 0, _len = array.length; _i < _len; _i++) {
+      value = array[_i];
       if (!predicate(value)) {
         res.push(value);
       }
@@ -149,11 +149,11 @@ Author:
 
 
   create_gmap_path = function(data) {
-    var pair, _j, _len, _ref, _results;
+    var pair, _i, _len, _ref, _results;
     _ref = data.LinearRing.coordinates.split(" ");
     _results = [];
-    for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-      pair = _ref[_j];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      pair = _ref[_i];
       _results.push(create_gmap_latlng_from_coordinate_pairs(pair));
     }
     return _results;
@@ -166,24 +166,24 @@ Author:
 
 
   make_region = function(data, district) {
-    var inner, interior, interior_boundaries, paths, polygon, _j, _len;
+    var inner, interior, interior_boundaries, paths, polygon, _i, _len;
     paths = [];
     paths.push(create_gmap_path(data.outerBoundaryIs));
     if (data.innerBoundaryIs) {
       interior_boundaries = (function() {
-        var _j, _len, _ref, _results;
+        var _i, _len, _ref, _results;
         _ref = data.innerBoundaryIs;
         _results = [];
-        for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-          inner = _ref[_j];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          inner = _ref[_i];
           _results.push(create_gmap_path(inner));
         }
         return _results;
       })();
     }
     if (interior_boundaries) {
-      for (_j = 0, _len = interior_boundaries.length; _j < _len; _j++) {
-        interior = interior_boundaries[_j];
+      for (_i = 0, _len = interior_boundaries.length; _i < _len; _i++) {
+        interior = interior_boundaries[_i];
         paths.push(interior);
       }
     }
@@ -220,11 +220,11 @@ Author:
       district_name = data.Placemark.ExtendedData.SchemaData.SimpleData[2]['#text'];
       if (data.Placemark.MultiGeometry.Polygon) {
         regions = (function() {
-          var _j, _len, _ref, _results;
+          var _i, _len, _ref, _results;
           _ref = data.Placemark.MultiGeometry.Polygon;
           _results = [];
-          for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-            district_data = _ref[_j];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            district_data = _ref[_i];
             _results.push(make_region(district_data, district_name));
           }
           return _results;
@@ -239,11 +239,11 @@ Author:
 
 
   load_districts = function() {
-    var district, _j, _len, _ref, _results;
+    var district, _i, _len, _ref, _results;
     _ref = ["d1", "d2", "d3", "d4"];
     _results = [];
-    for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-      district = _ref[_j];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      district = _ref[_i];
       _results.push(load_district_data(district));
     }
     return _results;
@@ -259,11 +259,11 @@ Author:
   district_contains_point = function(district, region, point) {
     var foo, results;
     foo = (function() {
-      var _j, _len, _ref, _results;
+      var _i, _len, _ref, _results;
       _ref = districts[district];
       _results = [];
-      for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-        region = _ref[_j];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        region = _ref[_i];
         _results.push(region.Contains(point));
       }
       return _results;
@@ -304,17 +304,17 @@ Author:
   */
 
 
-  mark_point = function(point, zoom, address) {
+  mark_point = function(point, address, zoom) {
     var district, infoWindow, marker_data, tmpl, tmplString;
-    if (zoom == null) {
-      zoom = detail_zoom;
-    }
     if (address == null) {
       address = "Location";
     }
+    if (zoom == null) {
+      zoom = 14;
+    }
     district = find_district_by_point(point);
     map.setCenter(point);
-    map.setZoom(detail_zoom);
+    map.setZoom(zoom);
     marker_data = {
       map: map,
       position: point
@@ -344,7 +344,7 @@ Author:
   do_map = function() {
     var lookup_address, map_options;
     map_options = {
-      zoom: region_zoom,
+      zoom: 11,
       center: downtown,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       zoomControl: false,
@@ -354,9 +354,18 @@ Author:
       streetViewControl: false
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), map_options);
+    map_center = map.getCenter();
     google.maps.event.addListener(map, 'click', function() {
       reset_map();
       return $('#your_district').show().text("Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district.");
+    });
+    google.maps.event.addListener(map, 'center_changed', function() {
+      var center;
+      center = map.getCenter();
+      if (county_bounds.contains(center)) {
+        map_center = center;
+      }
+      return map.panTo(map_center);
     });
     lookup_address = function(event) {
       var data;

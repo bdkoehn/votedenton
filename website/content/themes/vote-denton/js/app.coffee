@@ -3,7 +3,7 @@
 Author:
 
 ###
-['fizz' unless i%3] + ['buzz' unless i%5] or i for i in [1..100]
+
 ###
 color data is present in the JSON feeds but each district is the same, so we assign unique values
 ###
@@ -34,21 +34,25 @@ $(document).ready ->
 ###
 google map options
 ###
+county_bounds = new google.maps.LatLngBounds()
+county_bounds.extend new google.maps.LatLng( 32.990236,-97.395172 )
+county_bounds.extend new google.maps.LatLng( 33.395691,-96.855211 )
+
 downtown = new google.maps.LatLng(33.214851,-97.133045)
-region_zoom = 11
-detail_zoom = region_zoom + 4
-districts = {}
 district_bounds = new google.maps.LatLngBounds()
 district_bounds.extend downtown
+
+# region_zoom = 11
+detail_zoom = 14
+districts = {}
 map = null
 marker = null
+map_center = null
 
 
 reset_map = ()->
   marker.setMap(null) if marker
-  map.setZoom region_zoom
   map.panToBounds district_bounds
-  console.log district_bounds
 
 
 ###
@@ -66,9 +70,9 @@ geocoder_success = (results, status)->
   if status is google.maps.GeocoderStatus.OK
     if results[0].types.indexOf('street_address') > -1
       address = results[0].formatted_address
-      mark_point results[0].geometry.location, detail_zoom, address
+      mark_point results[0].geometry.location, address
     else
-      mark_point results[0].geometry.location, detail_zoom
+      mark_point results[0].geometry.location
 
 
 
@@ -172,11 +176,11 @@ show that location on the map
 ###
 
 
-mark_point = (point, zoom = detail_zoom, address = "Location" )->
+mark_point = (point, address = "Location", zoom = 14 )->
   district = find_district_by_point point
 
   map.setCenter point
-  map.setZoom detail_zoom
+  map.setZoom zoom
 
   marker_data =
     map: map,
@@ -205,7 +209,7 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
 do_map = ()->
 
   map_options =
-    zoom: region_zoom
+    zoom: 11
     center: downtown
     mapTypeId: google.maps.MapTypeId.ROADMAP
     zoomControl: false
@@ -215,12 +219,16 @@ do_map = ()->
     streetViewControl: false
 
   map = new google.maps.Map document.getElementById('map-canvas'), map_options
+  map_center = map.getCenter()
 
-  google.maps.event.addListener map, 'click', ()->
-    reset_map()
+  google.maps.event.addListener map, 'click', reset_map
 
     $('#your_district').show().text( "Location indicated doesn't appear to be part of a Denton city district. Please type in your address, or click on the map to find your district." )
 
+  google.maps.event.addListener map, 'center_changed', ()->
+    center = map.getCenter()
+    map_center = center if county_bounds.contains(center)
+    map.panTo map_center
 
   lookup_address = (event)->
     event.preventDefault()
