@@ -21,7 +21,7 @@ If you would like to contribute, fork and clone this repository to your machine 
 ## Contributors
 
 - [Patrick Daly](http://developdaly.com) - Development
-- [Darren Smitherman](http://developdaly.com) - Design
+- [Darren Smitherman](http://cargocollective.com/darrensmitherman) - Design
 - [Adam Krawiec](http://bbttxu.com/) - Development
 - [Kyle Taylor](http://kyletaylored.com/) - Development
 - [Brad Koehn](http://twitter.com/daresayer) - Development
