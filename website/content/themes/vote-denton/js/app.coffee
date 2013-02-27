@@ -29,7 +29,7 @@ reveal map when focused on the address form
 $(document).ready ->
   $("#address").focus ->
     $("#collapse-district-map").collapse "show"
-    
+
 
 ###
 google map options
@@ -37,6 +37,7 @@ google map options
 downtown = new google.maps.LatLng(33.214851,-97.133045)
 region_zoom = 11
 detail_zoom = region_zoom + 4
+districts = {}
 district_bounds = new google.maps.LatLngBounds()
 district_bounds.extend downtown
 map = null
@@ -70,18 +71,6 @@ geocoder_success = (results, status)->
       mark_point results[0].geometry.location, detail_zoom
 
 
-
-districts = {}
-
-###
-the map object
-###
-map = null
-
-###
-marker, we only have one
-###
-marker = null
 
 ###
 mimic ruby's reject method
