@@ -17,7 +17,21 @@ If you would like to contribute, fork and clone this repository to your machine 
 
 	$ git submodule init
 	$ git submodule update
-	
+
+## Contributors
+
+- [Patrick Daly](http://developdaly.com) - Development
+- [Darren Smitherman](http://developdaly.com) - Design
+- [Adam Krawiec](http://bbttxu.com/) - Development
+- [Kyle Taylor](http://kyletaylored.com/) - Development
+- [Brad Koehn](http://twitter.com/daresayer) - Development
+- [David Myers](http://davidmyers.name/) - Development
+- [Devin Taylor](https://twitter.com/mr_fnord) - Data
+- [Jet Regan](https://twitter.com/JetRegan) - Planning
+- [Andrew Lewis](https://twitter.com/androoRL) - Development
+- [Kevin Roden](http://rodenfordenton.com/) - Organizer
+- **[All code contributors](https://github.com/daresayer/votedenton/contributors)**
+
 ## Setup
 
 You will need to setup a local database and create a virtual host to point at the `website` directory. It's suggested to use the domain `local.votedenton.org`.
