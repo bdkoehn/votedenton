@@ -29,7 +29,7 @@ reveal map when focused on the address form
 $(document).ready ->
   $("#address").focus ->
     $("#collapse-district-map").collapse "show"
-    
+
 
 ###
 google map options
@@ -37,6 +37,7 @@ google map options
 downtown = new google.maps.LatLng(33.214851,-97.133045)
 region_zoom = 11
 detail_zoom = region_zoom + 4
+districts = {}
 district_bounds = new google.maps.LatLngBounds()
 district_bounds.extend downtown
 map = null
@@ -45,9 +46,9 @@ marker = null
 
 reset_map = ()->
   marker.setMap(null) if marker
-  map.panToBounds district_bounds
   map.setZoom region_zoom
-
+  map.panToBounds district_bounds
+  console.log district_bounds
 
 
 ###
@@ -70,18 +71,6 @@ geocoder_success = (results, status)->
       mark_point results[0].geometry.location, detail_zoom
 
 
-
-districts = {}
-
-###
-the map object
-###
-map = null
-
-###
-marker, we only have one
-###
-marker = null
 
 ###
 mimic ruby's reject method
@@ -209,11 +198,8 @@ mark_point = (point, zoom = detail_zoom, address = "Location" )->
       district: district
       address: address
 
-
-
   infoWindow.open(map, marker)
-
-
+  google.maps.event.addListener infoWindow,'closeclick', reset_map
 
 
 do_map = ()->
@@ -222,6 +208,11 @@ do_map = ()->
     zoom: region_zoom
     center: downtown
     mapTypeId: google.maps.MapTypeId.ROADMAP
+    zoomControl: false
+    scaleControl: false
+    scrollwheel: false
+    disableDoubleClickZoom: true
+    streetViewControl: false
 
   map = new google.maps.Map document.getElementById('map-canvas'), map_options
 
