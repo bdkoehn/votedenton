@@ -98,8 +98,8 @@ get_header(); // Loads the header.php template. ?>
 								</header>
 
 								<div id="collapseTwo" class="accordion-body collapse container">
-									
-									<?php $candidates = new WP_Query( array( 'post_per_page' => -1, 'post_type' => 'candidate', 'orderby' => 'rand' ) );
+
+									<?php $candidates = new WP_Query( array( 'post_per_page' => -1, 'post_type' => 'candidate', 'orderby' => 'title' ) );
 									if( $candidates ): ?>
 									<ul class="thumbnails">
 										<?php while ($candidates->have_posts()) : $candidates->the_post();
