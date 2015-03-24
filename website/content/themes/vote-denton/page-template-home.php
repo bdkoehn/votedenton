@@ -40,7 +40,7 @@ get_header(); // Loads the header.php template. ?>
 									<input type="text" id="address" placeholder="What is your address?">
 
 									<input type="submit" id="map-button" class="btn btn-primary" vale="Submit">
-									
+
 									<div id="your_district"></div>
 
 								</div><!-- .container -->
@@ -48,9 +48,9 @@ get_header(); // Loads the header.php template. ?>
 							</fieldset>
 
 						</form><!-- #map-yourself -->
-						
+
 						<div class="accordion" id="accordion">
-							
+
 							<?php
 							$district_map_args = array(
 							  'name' => 'district-map',
@@ -58,43 +58,43 @@ get_header(); // Loads the header.php template. ?>
 							  'post_status' => 'publish',
 							  'numberposts' => 1
 							);
-							
+
 							$district_map = get_posts( $district_map_args );
 							if( $district_map ) {
 							?>
-							
+
 							<section id="district-map" class="accordion-group">
-	
+
 								<header class="accordion-heading">
-									
+
 									<div class="container">
-									
+
 										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-district-map"><?php echo $district_map[0]->post_title; ?><a></a></h1>
-	      							
+
 	      							</div><!-- .container -->
-	      								
+
 								</header>
-	
+
 								<div id="collapse-district-map" class="accordion-body collapse container">
 
 									<?php echo $district_map[0]->post_content; ?>
-		
+
 								</div><!-- .container -->
-	
+
 							</section><!-- #district-map -->
 
 							<?php } ?>
-														
+
 							<section id="candidates" class="accordion-group">
-	
+
 								<header class="accordion-heading">
-									
+
 									<div class="container">
-									
+
 										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Candidates<a></a></h1>
-	      								
+
 	      							</div><!-- .container -->
-	      		
+
 								</header>
 
 								<div id="collapseTwo" class="accordion-body collapse container">
@@ -107,33 +107,33 @@ get_header(); // Loads the header.php template. ?>
 										<li class="candidate">
 											<div class="thumbnail">
 												<div class="caption">
-												
+
 													<?php
 													$terms = get_the_terms( $post->ID, 'districts' );
-																			
-													if ( $terms && ! is_wp_error( $terms ) ) : 
-													
+
+													if ( $terms && ! is_wp_error( $terms ) ) :
+
 														$district_links = array();
-													
+
 														foreach ( $terms as $term ) {
 															$district_links[] = $term->name;
 														}
-																			
+
 														$districts = join( ", ", $district_links );
 													?>
 													<span class="label label-info pull-right"><?php echo $districts; ?></span>
-													
+
 													<?php endif; ?>
-													
+
 													<?php echo apply_atomic_shortcode( 'entry_title', '[entry-title]' ); ?>
-													
+
 													<?php if ( current_theme_supports( 'get-the-image' ) ) get_the_image( array( 'meta_key' => 'Thumbnail', 'size' => 'thumbnail', 'image_class' => 'pull-left' ) ); ?>
 
 													<div class="entry-summary">
 														<?php the_excerpt(); ?>
 														<?php wp_link_pages( array( 'before' => '<p class="page-links">' . __( 'Pages:', 'enterprise' ), 'after' => '</p>' ) ); ?>
 													</div><!-- .entry-summary -->
-													
+
 													<p><a href="<?php the_permalink(); ?>" class="btn btn-primary pull-right">Learn more</a></p>
 												</div>
 											</div>
@@ -141,9 +141,9 @@ get_header(); // Loads the header.php template. ?>
 										<?php endwhile; ?>
 									</ul>
 									<?php endif; wp_reset_query(); ?>
-		
+
 								</div><!-- .container -->
-											
+
 							</section><!-- #candidates -->
 
 							<?php
@@ -153,29 +153,29 @@ get_header(); // Loads the header.php template. ?>
 							  'post_status' => 'publish',
 							  'numberposts' => 1
 							);
-							
+
 							$calendar = get_posts( $calendar_args );
 							if( $calendar ) {
 							?>
-							
+
 							<section id="calendar" class="accordion-group">
-	
+
 								<header class="accordion-heading">
-									
+
 									<div class="container">
-									
+
 										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $calendar[0]->ID; ?>"><?php echo $calendar[0]->post_title; ?><a></a></h1>
-	      							
+
 	      							</div><!-- .container -->
-	      								
+
 								</header>
-	
+
 								<div id="collapse-<?php echo $calendar[0]->ID; ?>" class="accordion-body collapse container">
 
 									<?php echo $calendar[0]->post_content; ?>
-		
+
 								</div><!-- .container -->
-	
+
 							</section><!-- #calendar -->
 
 							<?php } ?>
@@ -187,33 +187,33 @@ get_header(); // Loads the header.php template. ?>
 							  'post_status' => 'publish',
 							  'numberposts' => 1
 							);
-							
+
 							$why_vote = get_posts( $why_vote_args );
 							if( $why_vote ) {
 							?>
-							
+
 							<section id="why-vote" class="accordion-group">
-	
+
 								<header class="accordion-heading">
-									
+
 									<div class="container">
-									
+
 										<h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $why_vote[0]->ID; ?>"><?php echo $why_vote[0]->post_title; ?><a></a></h1>
-	      							
+
 	      							</div><!-- .container -->
-	      								
+
 								</header>
-	
+
 								<div id="collapse-<?php echo $why_vote[0]->ID; ?>" class="accordion-body collapse container">
 
 									<?php echo $why_vote[0]->post_content; ?>
-		
+
 								</div><!-- .container -->
-	
+
 							</section><!-- #why-vote -->
 
 							<?php } ?>
-																								
+
 						</div><!-- #accordian -->
 
 						<div class="container">
@@ -224,7 +224,7 @@ get_header(); // Loads the header.php template. ?>
 							</div><!-- .entry-content -->
 
 							<?php do_atomic( 'close_entry' ); // vote_denton_close_entry ?>
-						
+
 						</div><!-- .container -->
 
 					</div><!-- .hentry -->
